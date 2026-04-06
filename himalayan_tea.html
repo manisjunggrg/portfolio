@@ -7,624 +7,245 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;500&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --forest: #1a2e1a;
-    --moss:   #2d4a2d;
-    --sage:   #5a7a4a;
-    --tea:    #c8a96e;
-    --cream:  #f5f0e8;
-    --warm:   #e8dcc8;
-    --ember:  #b85c38;
-    --gold:   #d4a843;
-    --mist:   #8aa88a;
-    --snow:   #faf8f4;
+    --forest: #1a2e1a; --moss: #2d4a2d; --sage: #5a7a4a;
+    --tea: #c8a96e; --cream: #f5f0e8; --warm: #e8dcc8;
+    --ember: #b85c38; --gold: #d4a843; --mist: #8aa88a; --snow: #faf8f4;
   }
-
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
+  body { font-family: 'Cormorant Garamond', serif; background: var(--snow); color: var(--forest); overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9999; opacity: 0.4; }
 
-  body {
-    font-family: 'Cormorant Garamond', serif;
-    background: var(--snow);
-    color: var(--forest);
-    overflow-x: hidden;
-  }
-
-  /* ─── NOISE OVERLAY ─── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 9999; opacity: 0.4;
-  }
-
-  /* ─── NAV ─── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.2rem 4rem;
-    background: rgba(26, 46, 26, 0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(200, 169, 110, 0.2);
-    transition: all 0.4s;
-  }
-  .nav-logo {
-    font-family: 'Cinzel', serif;
-    color: var(--tea);
-    font-size: 1.3rem;
-    letter-spacing: 0.15em;
-    text-decoration: none;
-  }
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 4rem; background: rgba(26,46,26,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(200,169,110,0.2); transition: all 0.4s; }
+  .nav-logo { font-family: 'Cinzel', serif; color: var(--tea); font-size: 1.3rem; letter-spacing: 0.15em; text-decoration: none; cursor: pointer; }
   .nav-logo span { color: var(--gold); }
   .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a {
-    font-family: 'Cormorant Garamond', serif;
-    color: var(--warm);
-    text-decoration: none;
-    font-size: 1rem;
-    letter-spacing: 0.08em;
-    font-weight: 300;
-    position: relative;
-    transition: color 0.3s;
-  }
-  .nav-links a::after {
-    content: '';
-    position: absolute; bottom: -4px; left: 0;
-    width: 0; height: 1px;
-    background: var(--gold);
-    transition: width 0.3s;
-  }
+  .nav-links a { font-family: 'Cormorant Garamond', serif; color: var(--warm); text-decoration: none; font-size: 1rem; letter-spacing: 0.08em; font-weight: 300; position: relative; transition: color 0.3s; cursor: pointer; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s; }
   .nav-links a:hover { color: var(--gold); }
   .nav-links a:hover::after { width: 100%; }
-  .nav-cta {
-    background: transparent;
-    border: 1px solid var(--gold);
-    color: var(--gold) !important;
-    padding: 0.4rem 1.2rem;
-    border-radius: 0;
-    font-size: 0.85rem !important;
-    letter-spacing: 0.1em !important;
-    cursor: pointer;
-    transition: all 0.3s !important;
-  }
+  .nav-cta { background: transparent; border: 1px solid var(--gold); color: var(--gold) !important; padding: 0.4rem 1.2rem; font-size: 0.85rem !important; letter-spacing: 0.1em !important; cursor: pointer; transition: all 0.3s !important; }
   .nav-cta:hover { background: var(--gold) !important; color: var(--forest) !important; }
   .nav-cta::after { display: none !important; }
 
-  /* ─── HERO ─── */
-  .hero {
-    min-height: 100vh;
-    position: relative;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    overflow: hidden;
-    background: var(--forest);
-  }
+  /* PAGES */
+  .page { display: none; }
+  .page.active { display: block; }
 
-  /* mountain SVG bg */
-  .hero-mountains {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 65%;
-  }
-
-  /* radial gradient sky */
-  .hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, #3a6040 0%, #1a2e1a 60%, #0d1a0d 100%);
-    z-index: 0;
-  }
-
-  /* stars */
-  .stars {
-    position: absolute; inset: 0; z-index: 1;
-    overflow: hidden;
-  }
-  .star {
-    position: absolute;
-    background: white;
-    border-radius: 50%;
-    animation: twinkle var(--dur, 3s) ease-in-out infinite alternate;
-    animation-delay: var(--del, 0s);
-    opacity: var(--op, 0.6);
-  }
-
-  @keyframes twinkle { from { opacity: var(--op, 0.6); } to { opacity: 0.1; } }
-
-  /* mist layer */
-  .hero-mist {
-    position: absolute; bottom: 0; left: -10%; right: -10%;
-    height: 35%;
-    background: linear-gradient(to top, rgba(200,220,200,0.18) 0%, transparent 100%);
-    z-index: 3;
-    animation: drift 12s ease-in-out infinite alternate;
-  }
+  /* HERO */
+  .hero { min-height: 100vh; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; background: var(--forest); }
+  .hero-mountains { position: absolute; bottom: 0; left: 0; right: 0; height: 65%; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, #3a6040 0%, #1a2e1a 60%, #0d1a0d 100%); z-index: 0; }
+  .stars { position: absolute; inset: 0; z-index: 1; overflow: hidden; }
+  .star { position: absolute; background: white; border-radius: 50%; animation: twinkle var(--dur,3s) ease-in-out infinite alternate; animation-delay: var(--del,0s); opacity: var(--op,0.6); }
+  @keyframes twinkle { from { opacity: var(--op,0.6); } to { opacity: 0.1; } }
+  .hero-mist { position: absolute; bottom: 0; left: -10%; right: -10%; height: 35%; background: linear-gradient(to top, rgba(200,220,200,0.18) 0%, transparent 100%); z-index: 3; animation: drift 12s ease-in-out infinite alternate; }
   @keyframes drift { from { transform: translateX(-2%); } to { transform: translateX(2%); } }
-
-  .hero-content {
-    position: relative; z-index: 10;
-    text-align: center;
-    padding: 0 2rem;
-    animation: heroIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
+  .hero-content { position: relative; z-index: 10; text-align: center; padding: 0 2rem; animation: heroIn 1.4s cubic-bezier(0.16,1,0.3,1) both; }
   @keyframes heroIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-
-  .hero-badge {
-    display: inline-block;
-    border: 1px solid rgba(200,169,110,0.5);
-    color: var(--tea);
-    font-family: 'Cinzel', serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.25em;
-    padding: 0.35rem 1.5rem;
-    margin-bottom: 1.8rem;
-    animation: heroIn 1.4s 0.2s cubic-bezier(0.16,1,0.3,1) both;
-  }
-
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(3rem, 8vw, 6.5rem);
-    color: var(--cream);
-    line-height: 1.05;
-    font-weight: 400;
-    animation: heroIn 1.4s 0.3s cubic-bezier(0.16,1,0.3,1) both;
-  }
-  .hero h1 em {
-    font-style: italic;
-    color: var(--gold);
-  }
-
-  .hero-sub {
-    font-size: 1.25rem;
-    color: var(--mist);
-    font-weight: 300;
-    letter-spacing: 0.04em;
-    margin-top: 1.2rem;
-    max-width: 540px;
-    margin-left: auto; margin-right: auto;
-    animation: heroIn 1.4s 0.45s cubic-bezier(0.16,1,0.3,1) both;
-  }
-
-  .hero-actions {
-    display: flex; gap: 1.2rem; justify-content: center;
-    margin-top: 2.5rem;
-    animation: heroIn 1.4s 0.6s cubic-bezier(0.16,1,0.3,1) both;
-  }
-  .btn-primary {
-    background: var(--gold);
-    color: var(--forest);
-    border: none;
-    padding: 0.9rem 2.2rem;
-    font-family: 'Cinzel', serif;
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
+  .hero-badge { display: inline-block; border: 1px solid rgba(200,169,110,0.5); color: var(--tea); font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.25em; padding: 0.35rem 1.5rem; margin-bottom: 1.8rem; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem,8vw,6.5rem); color: var(--cream); line-height: 1.05; font-weight: 400; }
+  .hero h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-size: 1.25rem; color: var(--mist); font-weight: 300; letter-spacing: 0.04em; margin-top: 1.2rem; max-width: 540px; margin-left: auto; margin-right: auto; }
+  .hero-actions { display: flex; gap: 1.2rem; justify-content: center; margin-top: 2.5rem; }
+  .btn-primary { background: var(--gold); color: var(--forest); border: none; padding: 0.9rem 2.2rem; font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.12em; cursor: pointer; transition: all 0.3s; }
   .btn-primary:hover { background: var(--tea); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
-  .btn-ghost {
-    background: transparent;
-    color: var(--cream);
-    border: 1px solid rgba(245,240,232,0.4);
-    padding: 0.9rem 2.2rem;
-    font-family: 'Cinzel', serif;
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
+  .btn-ghost { background: transparent; color: var(--cream); border: 1px solid rgba(245,240,232,0.4); padding: 0.9rem 2.2rem; font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.12em; cursor: pointer; transition: all 0.3s; }
   .btn-ghost:hover { border-color: var(--cream); transform: translateY(-2px); }
-
-  .hero-scroll {
-    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
-    z-index: 10;
-    display: flex; flex-direction: column; align-items: center;
-    gap: 0.5rem;
-    color: rgba(200,169,110,0.6);
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    font-family: 'Cinzel', serif;
-    animation: bounce 2s ease-in-out infinite;
-  }
+  .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: rgba(200,169,110,0.6); font-size: 0.7rem; letter-spacing: 0.2em; font-family: 'Cinzel', serif; animation: bounce 2s ease-in-out infinite; }
   .hero-scroll svg { width: 20px; opacity: 0.5; }
   @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
 
-  /* ─── STRIP ─── */
-  .strip {
-    background: var(--forest);
-    padding: 1rem 4rem;
-    display: flex; justify-content: center; gap: 4rem;
-    border-top: 1px solid rgba(200,169,110,0.15);
-    border-bottom: 1px solid rgba(200,169,110,0.15);
-  }
-  .strip-item {
-    display: flex; align-items: center; gap: 0.8rem;
-    color: var(--mist);
-    font-size: 0.85rem;
-    letter-spacing: 0.06em;
-  }
+  /* STRIP */
+  .strip { background: var(--forest); padding: 1rem 4rem; display: flex; justify-content: center; gap: 4rem; border-top: 1px solid rgba(200,169,110,0.15); border-bottom: 1px solid rgba(200,169,110,0.15); }
+  .strip-item { display: flex; align-items: center; gap: 0.8rem; color: var(--mist); font-size: 0.85rem; letter-spacing: 0.06em; }
   .strip-item .icon { font-size: 1.2rem; }
 
-  /* ─── SECTIONS ─── */
+  /* SECTIONS */
   section { padding: 6rem 4rem; }
-
-  .section-label {
-    font-family: 'Cinzel', serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.28em;
-    color: var(--sage);
-    text-transform: uppercase;
-    margin-bottom: 0.8rem;
-  }
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 400;
-    line-height: 1.2;
-    color: var(--forest);
-  }
+  .section-label { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.28em; color: var(--sage); text-transform: uppercase; margin-bottom: 0.8rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem,4vw,3rem); font-weight: 400; line-height: 1.2; color: var(--forest); }
   .section-title em { font-style: italic; color: var(--ember); }
 
-  /* ─── STORY ─── */
-  .story {
-    background: var(--cream);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: center;
-    padding: 6rem 8rem;
-  }
-  .story-visual {
-    position: relative;
-    height: 480px;
-  }
-  .story-img-main {
-    width: 75%;
-    height: 400px;
-    object-fit: cover;
-    position: absolute;
-    top: 0; right: 0;
-    filter: sepia(0.2) contrast(1.05);
-  }
-  .story-img-accent {
-    width: 55%;
-    height: 260px;
-    object-fit: cover;
-    position: absolute;
-    bottom: 0; left: 0;
-    border: 6px solid var(--snow);
-    filter: sepia(0.15) contrast(1.1);
-  }
-  .story-badge-float {
-    position: absolute;
-    top: 50%; left: 0; transform: translateY(-50%);
-    background: var(--forest);
-    color: var(--tea);
-    padding: 1.5rem 1.2rem;
-    text-align: center;
-    font-family: 'Cinzel', serif;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    line-height: 1.8;
-    z-index: 2;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  }
-  .story-badge-float strong {
-    display: block;
-    font-size: 2rem;
-    font-family: 'Playfair Display', serif;
-    color: var(--gold);
-    font-weight: 400;
-    letter-spacing: 0;
-  }
-
-  .story-text p {
-    font-size: 1.1rem;
-    line-height: 1.9;
-    color: #3a4a3a;
-    font-weight: 300;
-    margin-top: 1.5rem;
-  }
-  .story-divider {
-    width: 60px; height: 1px;
-    background: var(--gold);
-    margin: 1.5rem 0;
-  }
-  .story-features {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 1rem; margin-top: 2rem;
-  }
-  .story-feat {
-    display: flex; align-items: flex-start; gap: 0.8rem;
-    font-size: 0.95rem; line-height: 1.5;
-    color: var(--moss);
-  }
+  /* STORY */
+  .story { background: var(--cream); display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; padding: 6rem 8rem; }
+  .story-visual { position: relative; height: 480px; }
+  .story-img-main { width: 75%; height: 400px; position: absolute; top: 0; right: 0; }
+  .story-img-accent { width: 55%; height: 260px; position: absolute; bottom: 0; left: 0; border: 6px solid var(--snow); }
+  .story-badge-float { position: absolute; top: 50%; left: 0; transform: translateY(-50%); background: var(--forest); color: var(--tea); padding: 1.5rem 1.2rem; text-align: center; font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em; line-height: 1.8; z-index: 2; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .story-badge-float strong { display: block; font-size: 2rem; font-family: 'Playfair Display', serif; color: var(--gold); font-weight: 400; letter-spacing: 0; }
+  .story-text p { font-size: 1.1rem; line-height: 1.9; color: #3a4a3a; font-weight: 300; margin-top: 1.5rem; }
+  .story-divider { width: 60px; height: 1px; background: var(--gold); margin: 1.5rem 0; }
+  .story-features { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+  .story-feat { display: flex; align-items: flex-start; gap: 0.8rem; font-size: 0.95rem; line-height: 1.5; color: var(--moss); }
   .story-feat-icon { color: var(--gold); font-size: 1.1rem; margin-top: 0.1rem; }
 
-  /* ─── PRODUCTS ─── */
+  /* PRODUCTS */
   .products { background: var(--snow); }
   .products-header { text-align: center; margin-bottom: 3.5rem; }
-  .products-header p {
-    font-size: 1.1rem; color: #5a6a5a; font-weight: 300; margin-top: 0.8rem;
-  }
-  .products-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .product-card {
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    background: var(--forest);
-    aspect-ratio: 3/4;
-  }
+  .products-header p { font-size: 1.1rem; color: #5a6a5a; font-weight: 300; margin-top: 0.8rem; }
+  .products-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; max-width: 1100px; margin: 0 auto; }
+  .product-card { position: relative; overflow: hidden; cursor: pointer; background: var(--forest); aspect-ratio: 3/4; transition: all 0.3s; }
   .product-card:first-child { grid-column: span 1; grid-row: span 2; aspect-ratio: auto; }
-
-  .product-bg {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 6rem;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
+  .product-bg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 6rem; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
   .product-card:hover .product-bg { transform: scale(1.08); }
+  .product-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,20,10,0.9) 0%, rgba(10,20,10,0.2) 60%, transparent 100%); }
+  .product-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.8rem 1.5rem; }
+  .product-tag { display: inline-block; background: var(--gold); color: var(--forest); font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.15em; padding: 0.2rem 0.7rem; margin-bottom: 0.6rem; }
+  .product-name { font-family: 'Playfair Display', serif; color: var(--cream); font-size: 1.3rem; font-weight: 400; line-height: 1.2; }
+  .product-desc { color: var(--mist); font-size: 0.85rem; font-weight: 300; margin-top: 0.4rem; line-height: 1.5; opacity: 0; transform: translateY(8px); transition: all 0.4s 0.05s; }
+  .product-price { color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.9rem; margin-top: 0.8rem; opacity: 0; transform: translateY(8px); transition: all 0.4s 0.1s; }
+  .product-card:hover .product-desc, .product-card:hover .product-price { opacity: 1; transform: translateY(0); }
+  .product-view-pill { position: absolute; top: 1rem; right: 1rem; background: rgba(212,168,67,0.18); border: 1px solid rgba(212,168,67,0.6); color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.12em; padding: 0.3rem 0.8rem; opacity: 0; transition: opacity 0.3s; z-index: 5; }
+  .product-card:hover .product-view-pill { opacity: 1; }
 
-  .product-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(10,20,10,0.9) 0%, rgba(10,20,10,0.2) 60%, transparent 100%);
-    transition: opacity 0.4s;
-  }
-
-  .product-info {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    padding: 1.8rem 1.5rem;
-    transform: translateY(0);
-    transition: transform 0.4s;
-  }
-  .product-tag {
-    display: inline-block;
-    background: var(--gold);
-    color: var(--forest);
-    font-family: 'Cinzel', serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    padding: 0.2rem 0.7rem;
-    margin-bottom: 0.6rem;
-  }
-  .product-name {
-    font-family: 'Playfair Display', serif;
-    color: var(--cream);
-    font-size: 1.3rem;
-    font-weight: 400;
-    line-height: 1.2;
-  }
-  .product-desc {
-    color: var(--mist);
-    font-size: 0.85rem;
-    font-weight: 300;
-    margin-top: 0.4rem;
-    line-height: 1.5;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: all 0.4s 0.05s;
-  }
-  .product-price {
-    color: var(--gold);
-    font-family: 'Cinzel', serif;
-    font-size: 0.9rem;
-    margin-top: 0.8rem;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: all 0.4s 0.1s;
-  }
-  .product-card:hover .product-desc,
-  .product-card:hover .product-price { opacity: 1; transform: translateY(0); }
-
-  /* ─── PROCESS ─── */
-  .process {
-    background: var(--forest);
-    color: var(--cream);
-    padding: 6rem 8rem;
-    text-align: center;
-  }
+  /* PROCESS */
+  .process { background: var(--forest); color: var(--cream); padding: 6rem 8rem; text-align: center; }
   .process .section-label { color: var(--mist); }
   .process .section-title { color: var(--cream); }
-  .process-steps {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    margin-top: 4rem;
-    position: relative;
-  }
-  .process-steps::before {
-    content: '';
-    position: absolute;
-    top: 2.5rem; left: 10%; right: 10%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(200,169,110,0.4) 20%, rgba(200,169,110,0.4) 80%, transparent);
-  }
+  .process-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; margin-top: 4rem; position: relative; }
+  .process-steps::before { content: ''; position: absolute; top: 2.5rem; left: 10%; right: 10%; height: 1px; background: linear-gradient(to right, transparent, rgba(200,169,110,0.4) 20%, rgba(200,169,110,0.4) 80%, transparent); }
   .process-step { padding: 0 1.5rem; }
-  .step-num {
-    width: 5rem; height: 5rem;
-    border: 1px solid rgba(200,169,110,0.4);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 1.5rem;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    color: var(--gold);
-    background: var(--forest);
-    position: relative; z-index: 1;
-  }
-  .step-icon { font-size: 1.5rem; }
-  .step-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    margin-bottom: 0.6rem;
-    color: var(--cream);
-  }
+  .step-num { width: 5rem; height: 5rem; border: 1px solid rgba(200,169,110,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 1.5rem; color: var(--gold); background: var(--forest); position: relative; z-index: 1; }
+  .step-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.6rem; color: var(--cream); }
   .step-text { font-size: 0.9rem; color: var(--mist); font-weight: 300; line-height: 1.6; }
 
-  /* ─── TESTIMONIALS ─── */
+  /* TESTIMONIALS */
   .testimonials { background: var(--warm); padding: 6rem 8rem; }
   .testimonials-header { text-align: center; margin-bottom: 4rem; }
-  .testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .testimonial-card {
-    background: var(--snow);
-    padding: 2.2rem;
-    position: relative;
-    border-left: 3px solid var(--gold);
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; max-width: 1100px; margin: 0 auto; }
+  .testimonial-card { background: var(--snow); padding: 2.2rem; border-left: 3px solid var(--gold); transition: transform 0.3s, box-shadow 0.3s; }
   .testimonial-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
-  .testimonial-quote {
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    color: var(--gold);
-    line-height: 0.5;
-    margin-bottom: 1rem;
-  }
-  .testimonial-text {
-    font-size: 1rem;
-    line-height: 1.8;
-    color: #3a4a3a;
-    font-weight: 300;
-    font-style: italic;
-  }
-  .testimonial-author {
-    display: flex; align-items: center; gap: 0.8rem;
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(0,0,0,0.08);
-  }
-  .author-avatar {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: var(--moss);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--cream);
-    font-size: 1rem;
-    font-family: 'Cinzel', serif;
-  }
+  .testimonial-quote { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold); line-height: 0.5; margin-bottom: 1rem; }
+  .testimonial-text { font-size: 1rem; line-height: 1.8; color: #3a4a3a; font-weight: 300; font-style: italic; }
+  .testimonial-author { display: flex; align-items: center; gap: 0.8rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(0,0,0,0.08); }
+  .author-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--moss); display: flex; align-items: center; justify-content: center; color: var(--cream); font-size: 1rem; font-family: 'Cinzel', serif; flex-shrink: 0; }
   .author-name { font-size: 0.9rem; font-weight: 500; color: var(--forest); }
   .author-loc { font-size: 0.8rem; color: var(--sage); }
   .stars-row { color: var(--gold); font-size: 0.8rem; margin-top: 0.2rem; }
 
-  /* ─── NEWSLETTER ─── */
-  .newsletter {
-    background: var(--moss);
-    padding: 5rem 4rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .newsletter::before {
-    content: '🍃';
-    position: absolute;
-    font-size: 15rem;
-    opacity: 0.05;
-    top: -3rem; left: -3rem;
-    pointer-events: none;
-  }
-  .newsletter::after {
-    content: '☕';
-    position: absolute;
-    font-size: 12rem;
-    opacity: 0.05;
-    bottom: -2rem; right: 2rem;
-    pointer-events: none;
-  }
+  /* NEWSLETTER */
+  .newsletter { background: var(--moss); padding: 5rem 4rem; text-align: center; position: relative; overflow: hidden; }
+  .newsletter::before { content: '🍃'; position: absolute; font-size: 15rem; opacity: 0.05; top: -3rem; left: -3rem; pointer-events: none; }
+  .newsletter::after { content: '☕'; position: absolute; font-size: 12rem; opacity: 0.05; bottom: -2rem; right: 2rem; pointer-events: none; }
   .newsletter .section-label { color: rgba(245,240,232,0.6); }
   .newsletter .section-title { color: var(--cream); }
-  .newsletter p { color: var(--mist); font-weight: 300; margin-top: 0.8rem; font-size: 1.1rem; }
-  .newsletter-form {
-    display: flex; gap: 0; justify-content: center;
-    margin-top: 2.5rem;
-    max-width: 480px;
-    margin-left: auto; margin-right: auto;
-  }
-  .newsletter-input {
-    flex: 1;
-    padding: 0.9rem 1.4rem;
-    border: none;
-    background: rgba(255,255,255,0.12);
-    color: var(--cream);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    outline: none;
-    border: 1px solid rgba(200,169,110,0.3);
-    border-right: none;
-  }
+  .newsletter > p { color: var(--mist); font-weight: 300; margin-top: 0.8rem; font-size: 1.1rem; position: relative; z-index: 1; }
+  .newsletter-form { display: flex; justify-content: center; margin-top: 2.5rem; max-width: 480px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; }
+  .newsletter-input { flex: 1; padding: 0.9rem 1.4rem; border: 1px solid rgba(200,169,110,0.3); border-right: none; background: rgba(255,255,255,0.12); color: var(--cream); font-family: 'Cormorant Garamond', serif; font-size: 1rem; outline: none; }
   .newsletter-input::placeholder { color: rgba(200,169,110,0.5); }
-  .newsletter-btn {
-    padding: 0.9rem 1.8rem;
-    background: var(--gold);
-    color: var(--forest);
-    border: none;
-    font-family: 'Cinzel', serif;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
+  .newsletter-btn { padding: 0.9rem 1.8rem; background: var(--gold); color: var(--forest); border: none; font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em; cursor: pointer; transition: background 0.3s; }
   .newsletter-btn:hover { background: var(--tea); }
 
-  /* ─── FOOTER ─── */
-  footer {
-    background: var(--forest);
-    color: var(--mist);
-    padding: 4rem 8rem 2rem;
-    border-top: 1px solid rgba(200,169,110,0.15);
-  }
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 3rem;
-    margin-bottom: 3rem;
-  }
-  .footer-brand .nav-logo { display: block; margin-bottom: 1rem; font-size: 1.1rem; }
+  /* FOOTER */
+  footer { background: var(--forest); color: var(--mist); padding: 4rem 8rem 2rem; border-top: 1px solid rgba(200,169,110,0.15); }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
   .footer-brand p { font-size: 0.9rem; line-height: 1.7; font-weight: 300; max-width: 260px; }
-  .footer-col h4 {
-    font-family: 'Cinzel', serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    color: var(--tea);
-    margin-bottom: 1.2rem;
-    text-transform: uppercase;
-  }
+  .footer-col h4 { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--tea); margin-bottom: 1.2rem; text-transform: uppercase; }
   .footer-col ul { list-style: none; }
   .footer-col li { margin-bottom: 0.6rem; }
-  .footer-col a { color: var(--mist); text-decoration: none; font-size: 0.9rem; font-weight: 300; transition: color 0.3s; }
+  .footer-col a { color: var(--mist); text-decoration: none; font-size: 0.9rem; font-weight: 300; transition: color 0.3s; cursor: pointer; }
   .footer-col a:hover { color: var(--gold); }
-  .footer-bottom {
-    border-top: 1px solid rgba(200,169,110,0.1);
-    padding-top: 1.5rem;
-    display: flex; justify-content: space-between; align-items: center;
-  }
+  .footer-bottom { border-top: 1px solid rgba(200,169,110,0.1); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
   .footer-bottom p { font-size: 0.8rem; }
   .footer-social { display: flex; gap: 1rem; }
-  .social-btn {
-    width: 36px; height: 36px;
-    border: 1px solid rgba(200,169,110,0.2);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--mist);
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-decoration: none;
-  }
+  .social-btn { width: 36px; height: 36px; border: 1px solid rgba(200,169,110,0.2); display: flex; align-items: center; justify-content: center; color: var(--mist); font-size: 0.9rem; cursor: pointer; transition: all 0.3s; text-decoration: none; }
   .social-btn:hover { border-color: var(--gold); color: var(--gold); }
 
-  /* ─── RESPONSIVE ─── */
+  /* ══════════════════════════════════
+     PRODUCT DETAIL PAGE STYLES
+  ══════════════════════════════════ */
+  .product-page { min-height: 100vh; padding-top: 80px; background: var(--snow); animation: pageIn 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+  @keyframes pageIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+  .breadcrumb { background: var(--forest); padding: 0.9rem 5rem; display: flex; align-items: center; gap: 0.6rem; font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.15em; color: var(--mist); }
+  .breadcrumb span { color: rgba(200,169,110,0.35); }
+  .breadcrumb a { color: var(--tea); cursor: pointer; transition: color 0.2s; }
+  .breadcrumb a:hover { color: var(--gold); }
+  .breadcrumb .current { color: var(--cream); }
+
+  .pd-hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 88vh; }
+  .pd-visual { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 500px; }
+  .pd-emoji { font-size: 13rem; animation: floatEmoji 6s ease-in-out infinite; filter: drop-shadow(0 20px 60px rgba(0,0,0,0.35)); position: relative; z-index: 2; }
+  @keyframes floatEmoji { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-16px) rotate(3deg); } }
+  .pd-visual-badge { position: absolute; top: 2rem; left: 2rem; background: var(--gold); color: var(--forest); font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.15em; padding: 0.4rem 1rem; z-index: 3; }
+  .pd-particles { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
+  .particle { position: absolute; font-size: var(--sz,1.2rem); opacity: var(--op,0.12); animation: floatP var(--dur,8s) linear infinite; animation-delay: var(--del,0s); }
+  @keyframes floatP { 0% { transform: translateY(110%) rotate(0deg); opacity: 0; } 10% { opacity: var(--op,0.12); } 90% { opacity: var(--op,0.12); } 100% { transform: translateY(-20%) rotate(360deg); opacity: 0; } }
+
+  .pd-info { padding: 4rem 4rem 4rem 3.5rem; display: flex; flex-direction: column; justify-content: center; background: var(--cream); }
+  .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: none; border: none; cursor: pointer; font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.15em; color: var(--tea); padding: 0; transition: color 0.2s; margin-bottom: 2rem; }
+  .back-btn:hover { color: var(--gold); }
+  .pd-label { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.3em; color: var(--sage); margin-bottom: 0.6rem; }
+  .pd-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem,3.5vw,3rem); font-weight: 400; line-height: 1.1; color: var(--forest); margin-bottom: 1rem; }
+  .pd-title em { font-style: italic; color: var(--ember); }
+  .pd-rating { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem; }
+  .pd-stars { color: var(--gold); font-size: 1rem; }
+  .pd-rating-txt { font-size: 0.85rem; color: var(--sage); }
+  .pd-divider { width: 50px; height: 1px; background: var(--gold); margin-bottom: 1.5rem; }
+  .pd-desc { font-size: 1.05rem; line-height: 1.9; color: #4a5a4a; font-weight: 300; margin-bottom: 2rem; }
+  .pd-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 2rem; border: 1px solid rgba(90,122,74,0.2); }
+  .pd-spec { padding: 0.85rem 1.1rem; border-bottom: 1px solid rgba(90,122,74,0.12); }
+  .pd-spec:nth-child(odd) { border-right: 1px solid rgba(90,122,74,0.12); }
+  .pd-spec-lbl { font-family: 'Cinzel', serif; font-size: 0.56rem; letter-spacing: 0.14em; color: var(--sage); margin-bottom: 0.2rem; }
+  .pd-spec-val { font-size: 0.9rem; color: var(--forest); }
+  .pd-price-row { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.2rem; }
+  .pd-price { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--forest); font-weight: 400; }
+  .pd-price-unit { font-family: 'Cinzel', serif; font-size: 0.68rem; letter-spacing: 0.1em; color: var(--sage); }
+  .pd-sizes { display: flex; gap: 0.6rem; margin-bottom: 2rem; flex-wrap: wrap; }
+  .pd-size-btn { padding: 0.5rem 1.2rem; border: 1px solid rgba(90,122,74,0.3); background: transparent; font-family: 'Cinzel', serif; font-size: 0.68rem; letter-spacing: 0.1em; cursor: pointer; color: var(--moss); transition: all 0.2s; }
+  .pd-size-btn.active, .pd-size-btn:hover { background: var(--forest); color: var(--cream); border-color: var(--forest); }
+  .pd-actions { display: flex; gap: 1rem; margin-bottom: 2rem; }
+  .pd-add-cart { flex: 1; background: var(--forest); color: var(--cream); border: none; padding: 1rem 2rem; font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.12em; cursor: pointer; transition: all 0.3s; }
+  .pd-add-cart:hover { background: var(--moss); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+  .pd-wishlist { width: 52px; border: 1px solid rgba(90,122,74,0.3); background: transparent; color: var(--sage); font-size: 1.2rem; cursor: pointer; transition: all 0.2s; }
+  .pd-wishlist:hover { border-color: var(--ember); color: var(--ember); }
+  .pd-guarantee { display: flex; gap: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(90,122,74,0.15); flex-wrap: wrap; }
+  .pd-g-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--sage); }
+
+  /* TABS */
+  .pd-tabs { background: var(--snow); }
+  .pd-tab-nav { display: flex; border-bottom: 2px solid rgba(90,122,74,0.15); padding: 0 5rem; overflow-x: auto; }
+  .pd-tab-btn { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.15em; padding: 1.2rem 1.8rem; border: none; background: transparent; cursor: pointer; color: var(--sage); border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap; }
+  .pd-tab-btn.active { color: var(--forest); border-bottom-color: var(--gold); }
+  .pd-tab-btn:hover { color: var(--forest); }
+  .pd-tab-panel { display: none; padding: 3rem 5rem; }
+  .pd-tab-panel.active { display: block; }
+  .pd-tab-panel h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 400; margin-bottom: 1.2rem; color: var(--forest); }
+  .pd-tab-panel p { font-size: 1rem; line-height: 1.9; color: #4a5a4a; font-weight: 300; margin-bottom: 1rem; }
+  .pd-tab-panel ul { list-style: none; margin-top: 0.5rem; }
+  .pd-tab-panel li { padding: 0.5rem 0; border-bottom: 1px solid rgba(90,122,74,0.1); font-size: 0.95rem; color: #4a5a4a; display: flex; align-items: center; gap: 0.7rem; }
+  .pd-tab-panel li::before { content: '✦'; color: var(--gold); font-size: 0.6rem; flex-shrink: 0; }
+  .brew-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: rgba(90,122,74,0.1); margin-top: 1.5rem; }
+  .brew-cell { background: var(--snow); padding: 1.5rem 1.2rem; text-align: center; }
+  .brew-icon { font-size: 2rem; margin-bottom: 0.6rem; }
+  .brew-lbl { font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.12em; color: var(--sage); margin-bottom: 0.3rem; }
+  .brew-val { font-size: 1rem; color: var(--forest); font-weight: 400; }
+
+  /* RELATED */
+  .related-sec { background: var(--cream); padding: 4rem 5rem; }
+  .related-sec h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 400; margin-bottom: 2rem; color: var(--forest); }
+  .related-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: rgba(90,122,74,0.1); }
+  .related-card { background: var(--snow); padding: 1.8rem; cursor: pointer; transition: all 0.3s; }
+  .related-card:hover { background: var(--cream); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+  .r-emoji { font-size: 3rem; margin-bottom: 0.8rem; display: block; }
+  .r-tag { font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.15em; color: var(--sage); margin-bottom: 0.3rem; }
+  .r-name { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--forest); margin-bottom: 0.3rem; }
+  .r-price { font-family: 'Cinzel', serif; font-size: 0.7rem; color: var(--gold); }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--forest); color: var(--cream); padding: 1rem 1.8rem; font-family: 'Cormorant Garamond', serif; font-size: 1rem; border-left: 3px solid var(--gold); box-shadow: 0 12px 40px rgba(0,0,0,0.3); z-index: 9998; transform: translateX(200%); transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); }
+  .toast.show { transform: translateX(0); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* RESPONSIVE */
   @media (max-width: 900px) {
     nav { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
@@ -639,52 +260,48 @@
     .testimonials { padding: 4rem 1.5rem; }
     .testimonials-grid { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
-    .strip { padding: 1rem 1.5rem; gap: 1.5rem; flex-wrap: wrap; justify-content: flex-start; }
+    .strip { padding: 1rem 1.5rem; gap: 1.5rem; flex-wrap: wrap; }
     footer { padding: 3rem 1.5rem 2rem; }
+    .pd-hero { grid-template-columns: 1fr; }
+    .pd-visual { min-height: 280px; }
+    .pd-emoji { font-size: 7rem; }
+    .pd-info { padding: 2rem 1.5rem; }
+    .breadcrumb { padding: 0.9rem 1.5rem; }
+    .pd-tab-nav { padding: 0 1rem; }
+    .pd-tab-panel { padding: 2rem 1.5rem; }
+    .brew-grid { grid-template-columns: 1fr 1fr; }
+    .related-sec { padding: 3rem 1.5rem; }
+    .related-grid { grid-template-columns: 1fr 1fr; }
   }
-
-  /* ─── SCROLL ANIMATIONS ─── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
 </style>
 </head>
 <body>
 
+<div class="toast" id="toast">🍃 Added to cart successfully!</div>
+
 <!-- NAV -->
 <nav id="navbar">
-  <a href="#" class="nav-logo">HIMALAYAN <span>BREW</span></a>
+  <a class="nav-logo" onclick="goHome()">HIMALAYAN <span>BREW</span></a>
   <ul class="nav-links">
-    <li><a href="#story">Our Story</a></li>
-    <li><a href="#teas">Our Teas</a></li>
-    <li><a href="#process">Craft</a></li>
-    <li><a href="#contact" class="nav-cta">Shop Now</a></li>
+    <li><a onclick="goHome(); scrollTo('story')">Our Story</a></li>
+    <li><a onclick="goHome(); scrollTo('teas')">Our Teas</a></li>
+    <li><a onclick="goHome(); scrollTo('process')">Craft</a></li>
+    <li><a onclick="goHome(); scrollTo('contact')" class="nav-cta">Shop Now</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
+<!-- ═══════════ HOME PAGE ═══════════ -->
+<div class="page active" id="page-home">
+
 <section class="hero" id="home">
-  <!-- Stars -->
   <div class="stars" id="stars"></div>
-  <!-- Mountains SVG -->
   <svg class="hero-mountains" viewBox="0 0 1440 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Far mountains (snow-capped) -->
     <polygon points="0,500 200,120 350,300 500,80 650,250 800,50 950,220 1100,90 1250,280 1440,100 1440,500" fill="#1a2e1a" opacity="0.9"/>
-    <!-- Snow caps -->
     <polygon points="800,50 750,150 850,150" fill="rgba(240,245,245,0.9)"/>
     <polygon points="500,80 460,160 540,160" fill="rgba(240,245,245,0.85)"/>
     <polygon points="1100,90 1065,175 1135,175" fill="rgba(240,245,245,0.8)"/>
-    <!-- Mid mountains -->
     <polygon points="0,500 100,280 250,380 400,220 550,340 700,200 850,320 1000,250 1150,360 1300,240 1440,320 1440,500" fill="#152415" opacity="0.95"/>
-    <!-- Foreground hills -->
     <path d="M0,500 C100,420 200,460 350,400 C500,340 600,410 750,380 C900,350 1000,420 1150,390 C1300,360 1380,430 1440,400 L1440,500Z" fill="#0d1a0d"/>
-    <!-- Tea terraces suggestion -->
     <path d="M0,500 C80,480 200,488 350,478 C500,468 600,478 750,470 C900,462 1050,475 1200,465 C1350,455 1420,472 1440,468 L1440,500Z" fill="#0a130a" opacity="0.8"/>
   </svg>
   <div class="hero-mist"></div>
@@ -697,15 +314,9 @@
       <button class="btn-ghost" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">Our Story</button>
     </div>
   </div>
-  <div class="hero-scroll">
-    SCROLL
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <path d="M12 5v14M5 12l7 7 7-7"/>
-    </svg>
-  </div>
+  <div class="hero-scroll">SCROLL<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
 </section>
 
-<!-- STRIP -->
 <div class="strip">
   <div class="strip-item"><span class="icon">🌿</span> 100% Certified Organic</div>
   <div class="strip-item"><span class="icon">⛰️</span> High-Altitude Grown</div>
@@ -714,28 +325,16 @@
   <div class="strip-item"><span class="icon">🏆</span> Award-Winning Quality</div>
 </div>
 
-<!-- STORY -->
 <section class="story" id="story">
   <div class="story-visual">
-    <!-- Using gradient placeholders styled as landscape images -->
-    <div class="story-img-main" style="background: linear-gradient(135deg, #2d4a2d 0%, #5a7a4a 40%, #8aa88a 70%, #c8d8b8 100%); display:flex; align-items:center; justify-content:center; border-radius:0;">
-      <div style="text-align:center; color:rgba(255,255,255,0.7);">
-        <div style="font-size:4rem;">🌄</div>
-        <div style="font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:0.2em; margin-top:0.5rem; color:rgba(200,220,180,0.8);">ILAM TEA GARDENS</div>
-      </div>
+    <div class="story-img-main" style="background:linear-gradient(135deg,#2d4a2d,#5a7a4a,#8aa88a,#c8d8b8);display:flex;align-items:center;justify-content:center;">
+      <div style="text-align:center;color:rgba(255,255,255,0.7);"><div style="font-size:4rem;">🌄</div><div style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.2em;margin-top:0.5rem;">ILAM TEA GARDENS</div></div>
     </div>
-    <div class="story-img-accent" style="background: linear-gradient(145deg, #1a2e1a 0%, #3a6040 50%, #7a9a6a 100%); display:flex; align-items:center; justify-content:center;">
-      <div style="text-align:center; color:rgba(255,255,255,0.7);">
-        <div style="font-size:2.5rem;">🍃</div>
-        <div style="font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.15em; margin-top:0.4rem; color:rgba(200,220,180,0.8);">HAND PICKED</div>
-      </div>
+    <div class="story-img-accent" style="background:linear-gradient(145deg,#1a2e1a,#3a6040,#7a9a6a);display:flex;align-items:center;justify-content:center;">
+      <div style="text-align:center;color:rgba(255,255,255,0.7);"><div style="font-size:2.5rem;">🍃</div><div style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.15em;margin-top:0.4rem;">HAND PICKED</div></div>
     </div>
-    <div class="story-badge-float">
-      <strong>14</strong>
-      YEARS OF<br>CRAFT
-    </div>
+    <div class="story-badge-float"><strong>14</strong>YEARS OF<br>CRAFT</div>
   </div>
-
   <div class="story-text">
     <p class="section-label">Our Story</p>
     <h2 class="section-title">Born from the<br>Mist & <em>Mountains</em></h2>
@@ -751,148 +350,66 @@
   </div>
 </section>
 
-<!-- PRODUCTS -->
 <section class="products" id="teas">
   <div class="products-header reveal">
     <p class="section-label">Our Collection</p>
     <h2 class="section-title">Teas for Every <em>Mood</em></h2>
-    <p>From first flush Darjeeling-style whites to robust Himalayan blacks — discover your perfect cup.</p>
+    <p>Click any tea card to explore its full story, tasting notes, and brewing guide.</p>
   </div>
   <div class="products-grid">
-
-    <div class="product-card reveal">
-      <div class="product-bg" style="background: linear-gradient(145deg,#1a3a2a,#2d5a3d,#4a8a5a);">🌿</div>
+    <div class="product-card reveal" onclick="openProduct('green')">
+      <div class="product-bg" style="background:linear-gradient(145deg,#1a3a2a,#2d5a3d,#4a8a5a);">🌿</div>
       <div class="product-overlay"></div>
-      <div class="product-info">
-        <div class="product-tag">SIGNATURE</div>
-        <div class="product-name">First Flush<br>Green Tea</div>
-        <div class="product-desc">Delicate spring harvest with a fresh, vegetal sweetness and lingering floral finish. Nepal's answer to Gyokuro.</div>
-        <div class="product-price">From NPR 850 · 50g</div>
-      </div>
+      <div class="product-view-pill">VIEW DETAILS →</div>
+      <div class="product-info"><div class="product-tag">SIGNATURE</div><div class="product-name">First Flush<br>Green Tea</div><div class="product-desc">Delicate spring harvest with a fresh, vegetal sweetness and lingering floral finish. Nepal's answer to Gyokuro.</div><div class="product-price">From NPR 850 · 50g</div></div>
     </div>
-
-    <div class="product-card reveal reveal-delay-1">
-      <div class="product-bg" style="background: linear-gradient(145deg,#3a1a0a,#5a2a15,#8a4a25);">☕</div>
+    <div class="product-card reveal reveal-delay-1" onclick="openProduct('black')">
+      <div class="product-bg" style="background:linear-gradient(145deg,#3a1a0a,#5a2a15,#8a4a25);">☕</div>
       <div class="product-overlay"></div>
-      <div class="product-info">
-        <div class="product-tag">BESTSELLER</div>
-        <div class="product-name">Himalayan Gold<br>Black Tea</div>
-        <div class="product-desc">Rich, malty, and full-bodied. Perfect with or without milk. The pride of Ilam.</div>
-        <div class="product-price">From NPR 750 · 50g</div>
-      </div>
+      <div class="product-view-pill">VIEW DETAILS →</div>
+      <div class="product-info"><div class="product-tag">BESTSELLER</div><div class="product-name">Himalayan Gold<br>Black Tea</div><div class="product-desc">Rich, malty, and full-bodied. Perfect with or without milk. The pride of Ilam.</div><div class="product-price">From NPR 750 · 50g</div></div>
     </div>
-
-    <div class="product-card reveal reveal-delay-2">
-      <div class="product-bg" style="background: linear-gradient(145deg,#1a1a3a,#2a2a5a,#4a5a8a);">🌙</div>
+    <div class="product-card reveal reveal-delay-2" onclick="openProduct('white')">
+      <div class="product-bg" style="background:linear-gradient(145deg,#1a1a3a,#2a2a5a,#4a5a8a);">🌙</div>
       <div class="product-overlay"></div>
-      <div class="product-info">
-        <div class="product-tag">LIMITED</div>
-        <div class="product-name">Moonlight<br>White Tea</div>
-        <div class="product-desc">Hand-rolled silver needles, plucked at dawn. Ethereally light with honeyed sweetness.</div>
-        <div class="product-price">From NPR 1,200 · 30g</div>
-      </div>
+      <div class="product-view-pill">VIEW DETAILS →</div>
+      <div class="product-info"><div class="product-tag">LIMITED</div><div class="product-name">Moonlight<br>White Tea</div><div class="product-desc">Hand-rolled silver needles, plucked at dawn. Ethereally light with honeyed sweetness.</div><div class="product-price">From NPR 1,200 · 30g</div></div>
     </div>
-
-    <div class="product-card reveal reveal-delay-1">
-      <div class="product-bg" style="background: linear-gradient(145deg,#2a3a1a,#3a5a25,#6a8a40);">🫚</div>
+    <div class="product-card reveal reveal-delay-1" onclick="openProduct('tulsi')">
+      <div class="product-bg" style="background:linear-gradient(145deg,#2a3a1a,#3a5a25,#6a8a40);">🫚</div>
       <div class="product-overlay"></div>
-      <div class="product-info">
-        <div class="product-tag">WELLNESS</div>
-        <div class="product-name">Himalayan<br>Tulsi Blend</div>
-        <div class="product-desc">Sacred basil grown at altitude, blended with lemongrass and ginger. An adaptogenic powerhouse.</div>
-        <div class="product-price">From NPR 650 · 40g</div>
-      </div>
+      <div class="product-view-pill">VIEW DETAILS →</div>
+      <div class="product-info"><div class="product-tag">WELLNESS</div><div class="product-name">Himalayan<br>Tulsi Blend</div><div class="product-desc">Sacred basil grown at altitude, blended with lemongrass and ginger. An adaptogenic powerhouse.</div><div class="product-price">From NPR 650 · 40g</div></div>
     </div>
-
-    <div class="product-card reveal reveal-delay-2">
-      <div class="product-bg" style="background: linear-gradient(145deg,#3a2a1a,#5a3a15,#8a6a30);">🌸</div>
+    <div class="product-card reveal reveal-delay-2" onclick="openProduct('chamomile')">
+      <div class="product-bg" style="background:linear-gradient(145deg,#3a2a1a,#5a3a15,#8a6a30);">🌸</div>
       <div class="product-overlay"></div>
-      <div class="product-info">
-        <div class="product-tag">HERBAL</div>
-        <div class="product-name">Chamomile<br>& Yarrow</div>
-        <div class="product-desc">Wild-foraged chamomile from Mustang valley, combined with yarrow for a calming evening ritual.</div>
-        <div class="product-price">From NPR 700 · 40g</div>
-      </div>
+      <div class="product-view-pill">VIEW DETAILS →</div>
+      <div class="product-info"><div class="product-tag">HERBAL</div><div class="product-name">Chamomile<br>& Yarrow</div><div class="product-desc">Wild-foraged chamomile from Mustang valley, combined with yarrow for a calming evening ritual.</div><div class="product-price">From NPR 700 · 40g</div></div>
     </div>
-
   </div>
 </section>
 
-<!-- PROCESS -->
 <section class="process" id="process">
   <p class="section-label reveal">From Garden to Cup</p>
   <h2 class="section-title reveal reveal-delay-1">The Himalayan <em>Craft</em></h2>
   <div class="process-steps">
-    <div class="process-step reveal">
-      <div class="step-num"><span class="step-icon">🌱</span></div>
-      <div class="step-title">Cultivate</div>
-      <p class="step-text">Organic seeds nurtured in high-altitude nurseries. No chemicals, ever. Just rich mountain soil and rainfall.</p>
-    </div>
-    <div class="process-step reveal reveal-delay-1">
-      <div class="step-num"><span class="step-icon">✋</span></div>
-      <div class="step-title">Hand-Pick</div>
-      <p class="step-text">Only the finest two leaves and a bud are selected, plucked by expert hands during optimal harvest windows.</p>
-    </div>
-    <div class="process-step reveal reveal-delay-2">
-      <div class="step-num"><span class="step-icon">🔥</span></div>
-      <div class="step-title">Craft</div>
-      <p class="step-text">Traditional withering, rolling, and firing techniques are married with precise modern temperature control.</p>
-    </div>
-    <div class="process-step reveal reveal-delay-3">
-      <div class="step-num"><span class="step-icon">📦</span></div>
-      <div class="step-title">Deliver</div>
-      <p class="step-text">Sealed in airtight, biodegradable packaging and shipped fresh to your door within days of processing.</p>
-    </div>
+    <div class="process-step reveal"><div class="step-num">🌱</div><div class="step-title">Cultivate</div><p class="step-text">Organic seeds nurtured in high-altitude nurseries. No chemicals, ever. Just rich mountain soil and rainfall.</p></div>
+    <div class="process-step reveal reveal-delay-1"><div class="step-num">✋</div><div class="step-title">Hand-Pick</div><p class="step-text">Only the finest two leaves and a bud are selected, plucked by expert hands during optimal harvest windows.</p></div>
+    <div class="process-step reveal reveal-delay-2"><div class="step-num">🔥</div><div class="step-title">Craft</div><p class="step-text">Traditional withering, rolling, and firing techniques married with precise modern temperature control.</p></div>
+    <div class="process-step reveal reveal-delay-3"><div class="step-num">📦</div><div class="step-title">Deliver</div><p class="step-text">Sealed in airtight, biodegradable packaging and shipped fresh to your door within days of processing.</p></div>
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
 <section class="testimonials" id="reviews">
-  <div class="testimonials-header reveal">
-    <p class="section-label">Kind Words</p>
-    <h2 class="section-title">What Our Customers <em>Say</em></h2>
-  </div>
+  <div class="testimonials-header reveal"><p class="section-label">Kind Words</p><h2 class="section-title">What Our Customers <em>Say</em></h2></div>
   <div class="testimonials-grid">
-    <div class="testimonial-card reveal">
-      <div class="testimonial-quote">"</div>
-      <p class="testimonial-text">I've been drinking tea for 30 years and Himalayan Brew's First Flush is unlike anything I've ever tasted. It transports you straight to the mountains.</p>
-      <div class="testimonial-author">
-        <div class="author-avatar">A</div>
-        <div>
-          <div class="author-name">Subarna Dahal</div>
-          <div class="author-loc">Laalgadh, Nepal</div>
-          <div class="stars-row">★★★★★</div>
-        </div>
-      </div>
-    </div>
-    <div class="testimonial-card reveal reveal-delay-1">
-      <div class="testimonial-quote">"</div>
-      <p class="testimonial-text">The Tulsi blend has become part of my morning ritual. Knowing it's ethically sourced makes every sip even more meaningful.</p>
-      <div class="testimonial-author">
-        <div class="author-avatar">S</div>
-        <div>
-          <div class="author-name">Atib Pokhrel</div>
-          <div class="author-loc">Kausaltar, Bhaktapur</div>
-          <div class="stars-row">★★★★★</div>
-        </div>
-      </div>
-    </div>
-    <div class="testimonial-card reveal reveal-delay-2">
-      <div class="testimonial-quote">"</div>
-      <p class="testimonial-text">Ordered the gift set for my mother and she called me immediately saying it was the best gift she'd ever received. Will absolutely order again.</p>
-      <div class="testimonial-author">
-        <div class="author-avatar">R</div>
-        <div>
-          <div class="author-name">Sagar Khandka</div>
-          <div class="author-loc">Gulmi, Nepal</div>
-          <div class="stars-row">★★★★★</div>
-        </div>
-      </div>
-    </div>
+    <div class="testimonial-card reveal"><div class="testimonial-quote">"</div><p class="testimonial-text">I've been drinking tea for 30 years and Himalayan Brew's First Flush is unlike anything I've ever tasted. It transports you straight to the mountains.</p><div class="testimonial-author"><div class="author-avatar">A</div><div><div class="author-name">Amara Singh</div><div class="author-loc">New Delhi, India</div><div class="stars-row">★★★★★</div></div></div></div>
+    <div class="testimonial-card reveal reveal-delay-1"><div class="testimonial-quote">"</div><p class="testimonial-text">The Tulsi blend has become part of my morning ritual. Knowing it's ethically sourced makes every sip even more meaningful.</p><div class="testimonial-author"><div class="author-avatar">S</div><div><div class="author-name">Sophie Brandt</div><div class="author-loc">Berlin, Germany</div><div class="stars-row">★★★★★</div></div></div></div>
+    <div class="testimonial-card reveal reveal-delay-2"><div class="testimonial-quote">"</div><p class="testimonial-text">Ordered the gift set for my mother and she called me immediately saying it was the best gift she'd ever received. Will absolutely order again.</p><div class="testimonial-author"><div class="author-avatar">R</div><div><div class="author-name">Rajesh Thapa</div><div class="author-loc">Kathmandu, Nepal</div><div class="stars-row">★★★★★</div></div></div></div>
   </div>
 </section>
 
-<!-- NEWSLETTER -->
 <section class="newsletter" id="contact">
   <p class="section-label reveal">Stay Connected</p>
   <h2 class="section-title reveal reveal-delay-1">Join the <em>Brew</em> Community</h2>
@@ -901,103 +418,336 @@
     <input type="email" class="newsletter-input" placeholder="your@email.com" id="emailInput">
     <button class="newsletter-btn" onclick="handleSubscribe()">SUBSCRIBE</button>
   </div>
-  <p id="sub-msg" style="margin-top:1rem; color:var(--gold); font-size:0.9rem; opacity:0; transition:opacity 0.4s;"></p>
+  <p id="sub-msg" style="margin-top:1rem;font-size:0.9rem;opacity:0;transition:opacity 0.4s;position:relative;z-index:1;"></p>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="#" class="nav-logo">HIMALAYAN <span>BREW</span></a>
+      <a class="nav-logo" onclick="goHome()" style="display:block;margin-bottom:1rem;font-size:1.1rem;">HIMALAYAN <span>BREW</span></a>
       <p>Premium organic teas and herbs from the heart of Nepal's highlands. Sustainably grown, ethically traded, lovingly crafted.</p>
     </div>
-    <div class="footer-col">
-      <h4>Shop</h4>
-      <ul>
-        <li><a href="#">Green Teas</a></li>
-        <li><a href="#">Black Teas</a></li>
-        <li><a href="#">White Teas</a></li>
-        <li><a href="#">Herbal Blends</a></li>
-        <li><a href="#">Gift Sets</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <ul>
-        <li><a href="#">Our Story</a></li>
-        <li><a href="#">Sustainability</a></li>
-        <li><a href="#">Farming Partners</a></li>
-        <li><a href="#">Press</a></li>
-        <li><a href="#">Careers</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Contact</h4>
-      <ul>
-        <li><a href="#">📍 Ilam, Province No. 1, Nepal</a></li>
-        <li><a href="#">📞 +977 26 520 123</a></li>
-        <li><a href="#">✉ namaste@himalayanbrew.com</a></li>
-        <li><a href="#" style="margin-top:0.5rem; display:block;">Brew Guide</a></li>
-        <li><a href="#">FAQ</a></li>
-      </ul>
-    </div>
+    <div class="footer-col"><h4>Shop</h4><ul>
+      <li><a onclick="openProduct('green')">Green Teas</a></li>
+      <li><a onclick="openProduct('black')">Black Teas</a></li>
+      <li><a onclick="openProduct('white')">White Teas</a></li>
+      <li><a onclick="openProduct('tulsi')">Herbal Blends</a></li>
+      <li><a href="#">Gift Sets</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="#">Our Story</a></li><li><a href="#">Sustainability</a></li><li><a href="#">Farming Partners</a></li><li><a href="#">Press</a></li><li><a href="#">Careers</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="#">📍 Ilam, Province No. 1, Nepal</a></li><li><a href="#">📞 +977 26 520 123</a></li><li><a href="#">✉ namaste@himalayanbrew.com</a></li><li><a href="#">Brew Guide</a></li><li><a href="#">FAQ</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <p>© 2025 Himalayan Brew Pvt. Ltd. · Made with ♥ in Nepal</p>
-    <div class="footer-social">
-      <a href="#" class="social-btn">f</a>
-      <a href="#" class="social-btn">in</a>
-      <a href="#" class="social-btn">𝕏</a>
-      <a href="#" class="social-btn">▶</a>
-    </div>
+    <div class="footer-social"><a href="#" class="social-btn">f</a><a href="#" class="social-btn">in</a><a href="#" class="social-btn">𝕏</a><a href="#" class="social-btn">▶</a></div>
   </div>
 </footer>
+</div><!-- /page-home -->
+
+<!-- ═══════════ PRODUCT DETAIL PAGE ═══════════ -->
+<div class="page" id="page-product">
+  <div class="product-page">
+    <div class="breadcrumb">
+      <a onclick="goHome()">Home</a><span>›</span>
+      <a onclick="goHome();scrollTo('teas')">Our Teas</a><span>›</span>
+      <span class="current" id="pd-breadcrumb">Tea</span>
+    </div>
+
+    <div class="pd-hero">
+      <div class="pd-visual" id="pd-visual">
+        <div class="pd-particles" id="pd-particles"></div>
+        <div class="pd-visual-badge" id="pd-badge">SIGNATURE</div>
+        <div class="pd-emoji" id="pd-emoji">🌿</div>
+      </div>
+      <div class="pd-info">
+        <button class="back-btn" onclick="goHome();scrollTo('teas')">← BACK TO COLLECTION</button>
+        <p class="pd-label" id="pd-label">SIGNATURE · ILAM, NEPAL</p>
+        <h1 class="pd-title" id="pd-title">First Flush<br><em>Green Tea</em></h1>
+        <div class="pd-rating">
+          <div class="pd-stars">★★★★★</div>
+          <div class="pd-rating-txt" id="pd-rating-txt">4.9 (128 reviews)</div>
+        </div>
+        <div class="pd-divider"></div>
+        <p class="pd-desc" id="pd-desc"></p>
+        <div class="pd-specs" id="pd-specs"></div>
+        <div class="pd-price-row">
+          <div class="pd-price" id="pd-price">NPR 850</div>
+          <div class="pd-price-unit" id="pd-price-unit">per 50g</div>
+        </div>
+        <div class="pd-sizes" id="pd-sizes"></div>
+        <div class="pd-actions">
+          <button class="pd-add-cart" onclick="addToCart()">🛒 ADD TO CART</button>
+          <button class="pd-wishlist" id="pd-wish" onclick="toggleWish(this)">♡</button>
+        </div>
+        <div class="pd-guarantee">
+          <div class="pd-g-item">🌿 100% Organic</div>
+          <div class="pd-g-item">🚚 Free shipping over NPR 2000</div>
+          <div class="pd-g-item">↩ 30-day returns</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pd-tabs">
+      <div class="pd-tab-nav">
+        <button class="pd-tab-btn active" onclick="switchTab(this,'tab-details')">DETAILS</button>
+        <button class="pd-tab-btn" onclick="switchTab(this,'tab-brew')">BREW GUIDE</button>
+        <button class="pd-tab-btn" onclick="switchTab(this,'tab-origin')">ORIGIN</button>
+        <button class="pd-tab-btn" onclick="switchTab(this,'tab-reviews')">REVIEWS</button>
+      </div>
+      <div class="pd-tab-panel active" id="tab-details">
+        <h3>About This Tea</h3>
+        <p id="tab-details-p"></p>
+        <ul id="tab-details-ul"></ul>
+      </div>
+      <div class="pd-tab-panel" id="tab-brew">
+        <h3>How to Brew Perfectly</h3>
+        <p id="tab-brew-p"></p>
+        <div class="brew-grid" id="brew-grid"></div>
+      </div>
+      <div class="pd-tab-panel" id="tab-origin">
+        <h3>From the Heart of Nepal</h3>
+        <p id="tab-origin-p"></p>
+      </div>
+      <div class="pd-tab-panel" id="tab-reviews">
+        <h3>Customer Reviews</h3>
+        <div id="tab-reviews-list"></div>
+      </div>
+    </div>
+
+    <div class="related-sec">
+      <h2>You Might Also Love</h2>
+      <div class="related-grid" id="related-grid"></div>
+    </div>
+  </div>
+</div><!-- /page-product -->
 
 <script>
-  // ── Stars
-  const starsContainer = document.getElementById('stars');
-  for (let i = 0; i < 120; i++) {
-    const s = document.createElement('div');
-    s.classList.add('star');
-    const size = Math.random() * 2.5 + 0.5;
-    s.style.cssText = `
-      width: ${size}px; height: ${size}px;
-      top: ${Math.random() * 55}%;
-      left: ${Math.random() * 100}%;
-      --dur: ${2 + Math.random() * 4}s;
-      --del: ${Math.random() * 4}s;
-      --op: ${0.3 + Math.random() * 0.7};
-    `;
-    starsContainer.appendChild(s);
+// ── DATA
+const P = {
+  green: {
+    emoji:'🌿', badge:'SIGNATURE', label:'SIGNATURE · ILAM, NEPAL', breadcrumb:'First Flush Green Tea',
+    title:'First Flush<br><em>Green Tea</em>', rating:'4.9 (128 reviews)',
+    desc:'Plucked at the very start of the spring harvest, this exceptional green tea captures the season\'s first tender growth — luminous, fresh, and delicately floral. Nepal\'s finest answer to the world\'s greatest green teas.',
+    bg:'linear-gradient(145deg,#1a3a2a,#2d5a3d,#4a8a5a)', particle:'🍃',
+    sizes:[{l:'50g',p:'NPR 850'},{l:'100g',p:'NPR 1,600'},{l:'250g',p:'NPR 3,800'}],
+    specs:[{k:'TYPE',v:'Green Tea'},{k:'HARVEST',v:'First Flush (Spring)'},{k:'ELEVATION',v:'1,800m ASL'},{k:'CAFFEINE',v:'Low–Medium'},{k:'TASTE',v:'Fresh, Floral, Sweet'},{k:'STEEPS',v:'3–4 times'}],
+    detailP:'Our First Flush Green Tea is pan-fired within hours of harvesting, locking in vibrant chlorophyll and delicate aromatics. A true expression of spring in the Himalayan highlands.',
+    detailL:['Hand-plucked two leaves and a bud','Pan-fired within 4 hours of harvest','No additives or blending agents','NASAA certified organic','Vacuum-sealed for maximum freshness'],
+    brewP:'Green tea needs gentle care. Use water below boiling to unlock sweetness rather than bitterness.',
+    brew:[{i:'💧',l:'WATER TEMP',v:'75–80 °C'},{i:'🍵',l:'AMOUNT',v:'3g per 200ml'},{i:'⏱',l:'STEEP TIME',v:'1.5–2 min'},{i:'🔄',l:'RE-STEEPS',v:'Up to 3×'}],
+    originP:'Nestled in the eastern hills of Mechi Zone, our Kanyam gardens at 1,800 metres experience warm days, cool misty nights, and mineral-rich red clay soil — producing a First Flush with clarity that rivals the finest Japanese sencha.',
+    reviews:[{n:'Priya M.',l:'Singapore',t:'The most vibrant green tea I\'ve tasted outside Japan. Remarkable freshness.',s:5},{n:'Tom H.',l:'London, UK',t:'Completely converted me to Nepali tea. I\'ve ordered three times this year.',s:5},{n:'Anita R.',l:'Kathmandu',t:'Perfect morning ritual. Light, clean, energising without the jitters.',s:5}],
+    related:['black','white','tulsi','chamomile']
+  },
+  black: {
+    emoji:'☕', badge:'BESTSELLER', label:'BESTSELLER · ILAM, NEPAL', breadcrumb:'Himalayan Gold Black Tea',
+    title:'Himalayan Gold<br><em>Black Tea</em>', rating:'4.8 (312 reviews)',
+    desc:'Our most celebrated tea. Full-bodied, malty, and deeply satisfying — this second flush black tea is the proud soul of Himalayan Brew, beloved from Kathmandu to Copenhagen.',
+    bg:'linear-gradient(145deg,#3a1a0a,#5a2a15,#8a4a25)', particle:'☕',
+    sizes:[{l:'50g',p:'NPR 750'},{l:'100g',p:'NPR 1,400'},{l:'250g',p:'NPR 3,200'}],
+    specs:[{k:'TYPE',v:'Black Tea'},{k:'HARVEST',v:'Second Flush (Summer)'},{k:'ELEVATION',v:'1,600m ASL'},{k:'CAFFEINE',v:'Medium–High'},{k:'TASTE',v:'Malty, Rich, Warm'},{k:'STEEPS',v:'2–3 times'}],
+    detailP:'Harvested in peak summer, our second flush black develops a signature muscatel character — complex, winey, malty — with warm amber liquor and a long, satisfying finish.',
+    detailL:['Summer second flush for maximum depth','Orthodox rolling process','Full oxidation for rich flavour','Excellent with milk or pure','Award-winning at Nepal Tea Expo 2023'],
+    brewP:'This robust black tea handles a full boil and rewards longer steeping. Add milk for a traditional Nepal chiya experience.',
+    brew:[{i:'💧',l:'WATER TEMP',v:'95–100 °C'},{i:'🍵',l:'AMOUNT',v:'4g per 200ml'},{i:'⏱',l:'STEEP TIME',v:'3–4 min'},{i:'🥛',l:'WITH MILK',v:'Excellent'}],
+    originP:'Grown in the lower foothills of Ilam at 1,600 metres, our black tea gardens benefit from warmer summer conditions driving the muscatel transformation. The Rai family has managed this estate since 1978.',
+    reviews:[{n:'Marco B.',l:'Milan, Italy',t:'A revelation. My morning is incomplete without this now.',s:5},{n:'Sita P.',l:'Pokhara, Nepal',t:'The best chiya I have ever made at home. My whole family is hooked.',s:5},{n:'James W.',l:'Melbourne',t:'Rivals any Darjeeling I\'ve had. The muscatel note is incredible.',s:5}],
+    related:['green','white','tulsi','chamomile']
+  },
+  white: {
+    emoji:'🌙', badge:'LIMITED', label:'LIMITED EDITION · ILAM, NEPAL', breadcrumb:'Moonlight White Tea',
+    title:'Moonlight<br><em>White Tea</em>', rating:'5.0 (64 reviews)',
+    desc:'Our rarest offering. Hand-rolled silver needles plucked before sunrise, withered under the moonlight. Ethereally light with honeyed sweetness — a meditative tea experience.',
+    bg:'linear-gradient(145deg,#1a1a3a,#2a2a5a,#4a5a8a)', particle:'✨',
+    sizes:[{l:'30g',p:'NPR 1,200'},{l:'60g',p:'NPR 2,200'},{l:'100g',p:'NPR 3,500'}],
+    specs:[{k:'TYPE',v:'White Tea'},{k:'HARVEST',v:'Pre-dawn (Spring)'},{k:'ELEVATION',v:'2,000m ASL'},{k:'CAFFEINE',v:'Very Low'},{k:'TASTE',v:'Honey, Floral, Silk'},{k:'STEEPS',v:'4–5 times'}],
+    detailP:'Silver needle buds are plucked only before sunrise, withered in cool night air for 36 hours — no heat, no rolling. A tea of extraordinary purity produced in tiny quantities each spring.',
+    detailL:['Pre-dawn harvest, silver buds only','Minimal processing — no rolling or firing','36-hour night-air withering','One of Nepal\'s rarest teas','Batch-numbered, limited to 200kg per year'],
+    brewP:'White tea needs the gentlest touch. Use water well below boiling to preserve its delicate floral notes and silky texture.',
+    brew:[{i:'💧',l:'WATER TEMP',v:'70–75 °C'},{i:'🍵',l:'AMOUNT',v:'3g per 200ml'},{i:'⏱',l:'STEEP TIME',v:'2–3 min'},{i:'🔄',l:'RE-STEEPS',v:'Up to 5×'}],
+    originP:'These silver needles come from our highest-altitude plots at Sandakpur ridge, at 2,000 metres on the Nepal-India border. Extreme elevation, Himalayan mist, and hand-selected buds create a white tea impossible to replicate elsewhere.',
+    reviews:[{n:'Dr. Liu W.',l:'Shanghai, China',t:'As someone who grew up drinking Fujian white tea, this Nepali version genuinely moved me.',s:5},{n:'Elena K.',l:'Vienna, Austria',t:'Worth every rupee. An experience more than a beverage.',s:5},{n:'Binod S.',l:'Pokhara, Nepal',t:'Proud to see Nepal producing white tea of this quality. A national treasure.',s:5}],
+    related:['green','black','tulsi','chamomile']
+  },
+  tulsi: {
+    emoji:'🫚', badge:'WELLNESS', label:'WELLNESS BLEND · NEPAL', breadcrumb:'Himalayan Tulsi Blend',
+    title:'Himalayan<br><em>Tulsi Blend</em>', rating:'4.9 (187 reviews)',
+    desc:'Sacred Himalayan tulsi (holy basil) grown at altitude, harmoniously blended with fresh lemongrass and warming ginger. A powerful adaptogenic infusion for mind, body, and spirit.',
+    bg:'linear-gradient(145deg,#2a3a1a,#3a5a25,#6a8a40)', particle:'🌿',
+    sizes:[{l:'40g',p:'NPR 650'},{l:'80g',p:'NPR 1,200'},{l:'200g',p:'NPR 2,800'}],
+    specs:[{k:'TYPE',v:'Herbal Blend'},{k:'INGREDIENTS',v:'Tulsi, Lemongrass, Ginger'},{k:'ELEVATION',v:'1,400m ASL'},{k:'CAFFEINE',v:'Zero'},{k:'TASTE',v:'Herbal, Citrus, Warming'},{k:'BENEFIT',v:'Adaptogenic'}],
+    detailP:'Our highland-grown tulsi develops higher concentrations of eugenol than lowland varieties, making it potently aromatic. Blended with Nepali lemongrass and sun-dried ginger, this is a daily wellness ritual.',
+    detailL:['Three tulsi varieties: Ram, Vana, Krishna','Organically grown lemongrass from Terai region','Sun-dried ginger from Ilam farmers','No added flavours or preservatives','Ayurvedic adaptogen blend'],
+    brewP:'Herbal infusions love a full boil and a little patience. Cover while steeping to keep the essential oils from escaping.',
+    brew:[{i:'💧',l:'WATER TEMP',v:'100 °C'},{i:'🍵',l:'AMOUNT',v:'2 tsp per 300ml'},{i:'⏱',l:'STEEP TIME',v:'5–7 min'},{i:'🍯',l:'SERVE WITH',v:'Raw honey'}],
+    originP:'Our tulsi is cultivated in the mid-hills of Ilam where clean mountain air and mineral-rich soil produce leaves with exceptional essential oil content. Each batch is overseen by our herbalist Sunita Rai in Birtamode.',
+    reviews:[{n:'Rina D.',l:'Mumbai, India',t:'I drink this every morning and my stress levels have genuinely improved.',s:5},{n:'David L.',l:'Vancouver',t:'Replaced my morning coffee. I\'ve never looked back.',s:5},{n:'Mira K.',l:'Berlin',t:'The aroma from the bag alone is worth the price. Magnificent blend.',s:5}],
+    related:['green','chamomile','white','black']
+  },
+  chamomile: {
+    emoji:'🌸', badge:'HERBAL', label:'HERBAL · MUSTANG VALLEY', breadcrumb:'Chamomile & Yarrow',
+    title:'Chamomile<br><em>& Yarrow</em>', rating:'4.7 (93 reviews)',
+    desc:'Wild-foraged chamomile from Nepal\'s mystical Mustang valley, combined with ancient yarrow herb for a deeply calming evening ritual. The perfect close to any day.',
+    bg:'linear-gradient(145deg,#3a2a1a,#5a3a15,#8a6a30)', particle:'🌸',
+    sizes:[{l:'40g',p:'NPR 700'},{l:'80g',p:'NPR 1,300'},{l:'200g',p:'NPR 3,000'}],
+    specs:[{k:'TYPE',v:'Floral Herbal Blend'},{k:'INGREDIENTS',v:'Chamomile, Yarrow'},{k:'REGION',v:'Mustang, Nepal'},{k:'CAFFEINE',v:'Zero'},{k:'TASTE',v:'Floral, Apple, Calm'},{k:'BEST TIME',v:'Evening'}],
+    detailP:'Mustang\'s dry, high-altitude conditions produce chamomile flowers of intense floral concentration. Paired with yarrow — used by Himalayan healers for centuries — this blend is a masterclass in gentle botanical medicine.',
+    detailL:['Wild-foraged chamomile at 3,000m elevation','Ethically harvested by Mustang women\'s cooperatives','Yarrow sourced from traditional healers','Whole dried flowers — no extracts','Ideal for sleep and relaxation'],
+    brewP:'Let this floral blend bloom slowly. A longer steep unlocks the deepest calming properties and sweetest apple notes.',
+    brew:[{i:'💧',l:'WATER TEMP',v:'95 °C'},{i:'🍵',l:'AMOUNT',v:'1.5 tsp per 300ml'},{i:'⏱',l:'STEEP TIME',v:'5–8 min'},{i:'🌙',l:'BEST TIME',v:'Before bed'}],
+    originP:'The remote Mustang district — the former Kingdom of Lo — sits in a high-altitude rain shadow at 3,800 metres. This unique microclimate creates intensely fragrant chamomile. Our foraging partners are local women\'s cooperatives who sustainably harvest from wild meadows.',
+    reviews:[{n:'Dr. Sarah K.',l:'London, UK',t:'My patients ask what sleep tea I recommend. This is my only answer.',s:5},{n:'Mark T.',l:'Sydney',t:'The chamomile fragrance from just opening the bag is extraordinary.',s:5},{n:'Puja T.',l:'Kathmandu',t:'I give this as gifts. Such a beautiful product from our country.',s:4}],
+    related:['tulsi','white','green','black']
+  }
+};
+
+const SHORT = {
+  green:{emoji:'🌿',tag:'SIGNATURE',name:'First Flush Green Tea',price:'NPR 850'},
+  black:{emoji:'☕',tag:'BESTSELLER',name:'Himalayan Gold Black Tea',price:'NPR 750'},
+  white:{emoji:'🌙',tag:'LIMITED',name:'Moonlight White Tea',price:'NPR 1,200'},
+  tulsi:{emoji:'🫚',tag:'WELLNESS',name:'Himalayan Tulsi Blend',price:'NPR 650'},
+  chamomile:{emoji:'🌸',tag:'HERBAL',name:'Chamomile & Yarrow',price:'NPR 700'}
+};
+
+function goHome() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-home').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(() => document.querySelectorAll('.reveal').forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('visible');
+  }), 120);
+}
+
+function scrollTo(id) {
+  setTimeout(() => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 150);
+}
+
+function openProduct(id) {
+  const p = P[id];
+  window.scrollTo({ top: 0 });
+
+  document.getElementById('pd-breadcrumb').textContent = p.breadcrumb;
+  const vis = document.getElementById('pd-visual');
+  vis.style.background = p.bg;
+  document.getElementById('pd-badge').textContent = p.badge;
+  document.getElementById('pd-emoji').textContent = p.emoji;
+
+  // Floating particles
+  const pc = document.getElementById('pd-particles');
+  pc.innerHTML = '';
+  for (let i = 0; i < 20; i++) {
+    const el = document.createElement('div');
+    el.className = 'particle';
+    el.textContent = p.particle;
+    el.style.cssText = `left:${Math.random()*90}%;--sz:${0.7+Math.random()*1.6}rem;--op:${0.07+Math.random()*0.18};--dur:${5+Math.random()*9}s;--del:-${Math.random()*10}s;`;
+    pc.appendChild(el);
   }
 
-  // ── Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  document.getElementById('pd-label').textContent = p.label;
+  document.getElementById('pd-title').innerHTML = p.title;
+  document.getElementById('pd-rating-txt').textContent = p.rating;
+  document.getElementById('pd-desc').textContent = p.desc;
 
-  // ── Navbar shrink
-  window.addEventListener('scroll', () => {
-    const nav = document.getElementById('navbar');
-    nav.style.padding = window.scrollY > 60 ? '0.8rem 4rem' : '1.2rem 4rem';
-  });
+  document.getElementById('pd-specs').innerHTML = p.specs.map(s =>
+    `<div class="pd-spec"><div class="pd-spec-lbl">${s.k}</div><div class="pd-spec-val">${s.v}</div></div>`).join('');
 
-  // ── Subscribe
-  function handleSubscribe() {
-    const email = document.getElementById('emailInput').value;
-    const msg = document.getElementById('sub-msg');
-    if (!email || !email.includes('@')) {
-      msg.textContent = 'Please enter a valid email address.';
-      msg.style.color = '#e07070';
-    } else {
-      msg.textContent = '🍃 Welcome to the community! Check your inbox for a 10% welcome discount.';
-      msg.style.color = 'var(--gold)';
-      document.getElementById('emailInput').value = '';
-    }
-    msg.style.opacity = '1';
-    setTimeout(() => msg.style.opacity = '0', 5000);
-  }
+  document.getElementById('pd-sizes').innerHTML = p.sizes.map((s, i) =>
+    `<button class="pd-size-btn${i===0?' active':''}" onclick="selSize(this,'${s.p}','${s.l}')">${s.l}</button>`).join('');
+  document.getElementById('pd-price').textContent = p.sizes[0].p;
+  document.getElementById('pd-price-unit').textContent = `per ${p.sizes[0].l}`;
+
+  document.getElementById('tab-details-p').textContent = p.detailP;
+  document.getElementById('tab-details-ul').innerHTML = p.detailL.map(l=>`<li>${l}</li>`).join('');
+  document.getElementById('tab-brew-p').textContent = p.brewP;
+  document.getElementById('brew-grid').innerHTML = p.brew.map(b=>`<div class="brew-cell"><div class="brew-icon">${b.i}</div><div class="brew-lbl">${b.l}</div><div class="brew-val">${b.v}</div></div>`).join('');
+  document.getElementById('tab-origin-p').textContent = p.originP;
+  document.getElementById('tab-reviews-list').innerHTML = p.reviews.map(r=>`
+    <div class="testimonial-card" style="margin-bottom:1.2rem;">
+      <div class="testimonial-quote">"</div>
+      <p class="testimonial-text">${r.t}</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">${r.n[0]}</div>
+        <div><div class="author-name">${r.n}</div><div class="author-loc">${r.l}</div><div class="stars-row">${'★'.repeat(r.s)}</div></div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('related-grid').innerHTML = p.related.map(rid => {
+    const r = SHORT[rid];
+    return `<div class="related-card" onclick="openProduct('${rid}')">
+      <span class="r-emoji">${r.emoji}</span>
+      <div class="r-tag">${r.tag}</div>
+      <div class="r-name">${r.name}</div>
+      <div class="r-price">From ${r.price}</div>
+    </div>`;
+  }).join('');
+
+  // Reset tabs
+  document.querySelectorAll('.pd-tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.pd-tab-panel').forEach(c=>c.classList.remove('active'));
+  document.querySelector('.pd-tab-btn').classList.add('active');
+  document.getElementById('tab-details').classList.add('active');
+
+  // Reset wishlist
+  document.getElementById('pd-wish').textContent = '♡';
+
+  document.querySelectorAll('.page').forEach(pg=>pg.classList.remove('active'));
+  document.getElementById('page-product').classList.add('active');
+}
+
+function selSize(btn, price, label) {
+  document.querySelectorAll('.pd-size-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pd-price').textContent = price;
+  document.getElementById('pd-price-unit').textContent = `per ${label}`;
+}
+
+function switchTab(btn, panelId) {
+  document.querySelectorAll('.pd-tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.pd-tab-panel').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+function addToCart() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+function toggleWish(btn) {
+  btn.textContent = btn.textContent === '♡' ? '♥' : '♡';
+  btn.style.color = btn.textContent === '♥' ? '#b85c38' : '';
+  btn.style.borderColor = btn.textContent === '♥' ? '#b85c38' : '';
+}
+
+// Stars
+const sc = document.getElementById('stars');
+for (let i = 0; i < 120; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const sz = Math.random()*2.5+0.5;
+  s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*55}%;left:${Math.random()*100}%;--dur:${2+Math.random()*4}s;--del:${Math.random()*4}s;--op:${0.3+Math.random()*0.7};`;
+  sc.appendChild(s);
+}
+
+// Scroll reveal
+const obs = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Navbar shrink
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').style.padding = window.scrollY>60?'0.8rem 4rem':'1.2rem 4rem';
+});
+
+function handleSubscribe() {
+  const v = document.getElementById('emailInput').value;
+  const m = document.getElementById('sub-msg');
+  m.style.color = v && v.includes('@') ? 'var(--gold)' : '#e07070';
+  m.textContent = v && v.includes('@') ? '🍃 Welcome! Check your inbox for a 10% welcome discount.' : 'Please enter a valid email address.';
+  m.style.opacity='1';
+  if(v && v.includes('@')) document.getElementById('emailInput').value='';
+  setTimeout(()=>m.style.opacity='0',5000);
+}
 </script>
 </body>
 </html>
