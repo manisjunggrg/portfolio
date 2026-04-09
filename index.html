@@ -1,133 +1,667 @@
 <!DOCTYPE HTML>
-<html>
-	<head>
-		<title>Manish Gurung Aka. Jungey</title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
-		<script src="js/jquery.min.js"></script>
-		<script src="js/jquery.scrollex.min.js"></script>
-		<script src="js/jquery.scrolly.min.js"></script>
-		<script src="js/skel.min.js"></script>
-		<script src="js/init.js"></script>
-		<noscript>
-			<link rel="stylesheet" href="css/skel.css" />
-			<link rel="stylesheet" href="css/style.css" />
-			<link rel="stylesheet" href="css/style-xlarge.css" />
-		</noscript>
-		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
-		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
-	</head>
-	<body>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>Manish Gurung — Jungey</title>
+  <meta name="description" content="Portfolio of Manish Gurung — photographer, developer, musician." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;800&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-		<!-- Header -->
-			<section id="header">
-				<header class="major">
-					<h1>Manish Gurung Aka. Jungey</h1>
-					<p>A tech guy who is in love with music and mountains!</a></p>
-				</header>
-				<div class="container">
-					<ul class="actions">
-						<li><a href="#one" class="button special scrolly">Begin</a></li>
-					</ul>
-				</div>
-			</section>
+    :root {
+      --green:   #8cd1a8;
+      --green2:  #5fb889;
+      --dark:    #1e2628;
+      --panel:   rgba(255,255,255,0.96);
+      --text:    #4a5254;
+      --heading: #2c3436;
+      --border:  #e0e4e6;
+      --shadow:  0 4px 32px rgba(0,0,0,0.10);
+    }
 
-			<section id="one" class="main special">
-				<div class="container">
-					<span class="image fit primary"><img src="images/pic01.jpg" alt="" /></span>
-					<div class="content">
-						<header class="major">
-							<h2>Who I am?</h2>
-						</header>
-						<p>I'm a saint, and I'm a sinner!<br>
-							I'm a loser and a winner!<br>
-							Without faith and a believer!<br>
-							I am true and the deceiver!<br>
-							I'm a hero and a villain!<br>
-							I'm a myth, and I'm a legend!<br>
-							Without strength and a contender!<br>
-							I am real and the pretender!<br>
-							I am a optimist and I am a pessimist! </p>
-					</div>
-					<a href="#two" class="goto-next scrolly">Next</a>
-				</div>
-			</section>
+    html {
+      scroll-behavior: smooth;
+      background: var(--dark);
+    }
 
-			<section id="two" class="main special">
-				<div class="container">
-					<span class="image fit primary"><img src="images/pic02.jpg" alt="" /></span>
-					<div class="content">
-						<header class="major">
-							<h2>Stuff I do</h2>
-						</header>
-						<p>I can make beautiful designs for you ! <br>
-						I can make web applications for you! <br>
-					I can take photographs of you! <br>
-				And best of all I can fill your heart with melody!!!</p>
-						<ul class="icons-grid">
-							<li>
-								<span class="icon major fa-camera-retro"></span>
-								<h3>Photohraphy</h3>
-							</li>
-							<li>
-								<span class="icon major fa-pencil"></span>
-								<h3>Content Writing</h3>
-							</li>
-							<li>
-								<span class="icon major fa-code"></span>
-								<h3>Web App</h3>
-							</li>
-							<li>
-								<span class="icon major fa-music"></span>
-								<h3>Music</h3>
-							</li>
-						</ul>
-					</div>
-					<a href="#three" class="goto-next scrolly">Next</a>
-				</div>
-			</section>
+    body {
+      font-family: 'Raleway', 'Helvetica Neue', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
 
-		<!-- Three -->
-			<section id="three" class="main special">
-				<div class="container">
-					<span class="image fit primary"><img src="images/pic03.jpg" alt="" /></span>
-					<div class="content">
-						<header class="major">
-							<h2>One more thing</h2>
-						</header>
-						<p>"Whoever is happy will make others happy too. You look beautiful when you smile! So yeah ! Keep on smiling! :)"</p>
-					</div>
-					<a href="#footer" class="goto-next scrolly">Next</a>
-				</div>
-			</section>
-			<section id="footer">
-				<div class="container">
-					<header class="major">
-						<h2>Get in touch</h2>
-					</header>
-					<form method="post" action="mailto:manisjunggrg@gmail.com">
-						<div class="row uniform">
-							<div class="6u 12u$(xsmall)"><input type="text" name="name" id="name" placeholder="Name" /></div>
-							<div class="6u$ 12u$(xsmall)"><input type="email" name="email" id="email" placeholder="Email" /></div>
-							<div class="12u$"><textarea name="message" id="message" placeholder="Message" rows="4"></textarea></div>
-							<div class="12u$">
-								<ul class="actions">
-									<li><input type="submit" value="Send Message" class="special" /></li>
-								</ul>
-							</div>
-						</div>
-					</form>
-				</div>
-				<footer>
-					<ul class="icons">
-						<li><a href="https://twitter.com/manisjunggrg" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
-						<li><a href="https://www.facebook.com/manisjunggrg" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
-						<li><a href="https://www.instagram.com/_gurungmanish/" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
-						<li><a href="https://github.com/manisjunggrg" class="icon alt fa-github"><span class="label">Github</span></a></li>
-					</ul>
-				</footer>
-			</section>
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2.5rem;
+      background: rgba(30,38,40,0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(140,209,168,0.15);
+    }
 
-	</body>
+    nav .logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    nav .logo span { color: var(--green); }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav ul a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--green); }
+
+    /* ── HERO ── */
+    #hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      background:
+        linear-gradient(rgba(20,28,30,0.65), rgba(20,28,30,0.65)),
+        url('images/bg.jpg') center center / cover no-repeat fixed;
+      padding: 2rem;
+    }
+
+    #hero .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--green);
+      border: 1px solid var(--green);
+      border-radius: 50px;
+      padding: 0.35rem 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    #hero h1 em {
+      font-style: normal;
+      color: var(--green);
+    }
+
+    #hero p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.75);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2.2rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #fff;
+      border: 2px solid var(--green);
+    }
+
+    .btn-primary:hover {
+      background: var(--green2);
+      border-color: var(--green2);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.5);
+      margin-left: 1rem;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      animation: bounce 2s infinite;
+    }
+
+    .scroll-cue i { font-size: 1.2rem; }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── SECTIONS ── */
+    section { position: relative; }
+
+    .panel {
+      background: var(--panel);
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 5rem 3.5rem;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 0.6rem;
+    }
+
+    .panel h2 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800;
+      color: var(--heading);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    .panel h2::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 3px;
+      background: var(--green);
+      margin-top: 0.7rem;
+    }
+
+    .panel p {
+      color: var(--text);
+      line-height: 1.9;
+      margin-bottom: 1.2rem;
+    }
+
+    /* Section bg strips */
+    .strip {
+      height: 60vh;
+      min-height: 320px;
+      background-attachment: fixed;
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    #strip-1 { background-image: linear-gradient(rgba(20,28,30,0.5),rgba(20,28,30,0.5)), url('images/pic01.jpg'); }
+    #strip-2 { background-image: linear-gradient(rgba(20,28,30,0.5),rgba(20,28,30,0.5)), url('images/pic02.jpg'); }
+    #strip-3 { background-image: linear-gradient(rgba(20,28,30,0.5),rgba(20,28,30,0.5)), url('images/pic03.jpg'); }
+
+    /* ── WHO I AM ── */
+    .poem-lines {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--heading);
+      line-height: 2.2;
+      border-left: 3px solid var(--green);
+      padding-left: 1.4rem;
+      margin: 1.5rem 0;
+    }
+
+    /* ── SKILLS GRID ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .skill-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem 1.2rem;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    .skill-card .icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(140,209,168,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 1.3rem;
+      color: var(--green2);
+    }
+
+    .skill-card h3 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--heading);
+    }
+
+    /* ── QUOTE ── */
+    .quote-block {
+      background: rgba(140,209,168,0.08);
+      border-radius: 12px;
+      padding: 2rem 2.2rem;
+      margin: 1.5rem 0;
+    }
+
+    .quote-block p {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.12rem;
+      font-style: italic;
+      color: var(--heading);
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    .quote-block cite {
+      display: block;
+      font-style: normal;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green2);
+      margin-top: 0.8rem;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background:
+        linear-gradient(rgba(20,28,30,0.72), rgba(20,28,30,0.72)),
+        url('images/pic03.jpg') center center / cover no-repeat fixed;
+      padding: 5rem 1.5rem 4rem;
+      text-align: center;
+    }
+
+    #contact .section-label { color: rgba(140,209,168,0.9); }
+
+    #contact h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    #contact .sub {
+      color: rgba(255,255,255,0.55);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-form {
+      max-width: 580px;
+      margin: 0 auto;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .contact-form .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.85rem 1.1rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder { color: rgba(255,255,255,0.35); }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus { border-color: var(--green); }
+
+    .contact-form textarea { resize: vertical; min-height: 130px; }
+
+    .contact-form .btn-primary {
+      width: 100%;
+      border: none;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.82rem;
+    }
+
+    .form-msg {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.9rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .form-msg.success { background: rgba(140,209,168,0.2); color: #a8e6c0; border: 1px solid rgba(140,209,168,0.35); }
+    .form-msg.error   { background: rgba(220,80,80,0.15);  color: #f5a0a0; border: 1px solid rgba(220,80,80,0.3); }
+
+    /* ── SOCIAL FOOTER ── */
+    footer {
+      background: var(--dark);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+    }
+
+    .social-links {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.55);
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .social-links a:hover {
+      border-color: var(--green);
+      color: var(--green);
+      transform: translateY(-2px);
+    }
+
+    footer .copy {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.28);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      nav ul { display: none; }
+      .panel { padding: 3.5rem 1.5rem; }
+      .contact-form .row-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="logo">Manish<span>.</span></a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#quote">Vibe</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <span class="badge">Available for work &amp; collabs</span>
+  <h1>Manish Gurung<br><em>Aka. Jungey</em></h1>
+  <p>A tech guy deeply in love with music and mountains.</p>
+  <div>
+    <a href="#about" class="btn btn-primary">Explore</a>
+    <a href="#contact" class="btn btn-outline">Hire me</a>
+  </div>
+  <a href="#about" class="scroll-cue">
+    <i class="fa fa-angle-down"></i>
+    Scroll
+  </a>
+</section>
+
+<!-- ABOUT STRIP -->
+<div class="strip" id="strip-1"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="panel">
+    <p class="section-label">01 — Who I am</p>
+    <h2>A walking contradiction</h2>
+    <div class="poem-lines">
+      I'm a saint, and I'm a sinner!<br>
+      I'm a loser and a winner!<br>
+      Without faith and a believer!<br>
+      I am true and the deceiver!<br>
+      I'm a hero and a villain!<br>
+      I'm a myth, and I'm a legend!<br>
+      Without strength and a contender!<br>
+      I am real and the pretender!<br>
+      I am an optimist and I am a pessimist!
+    </div>
+    <p>Based in Nepal, I find inspiration in mountain trails and melodies alike. I bring the same passion to pixels, code, and creative work — always chasing the balance between logic and soul.</p>
+  </div>
+</section>
+
+<!-- SKILLS STRIP -->
+<div class="strip" id="strip-2"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="panel">
+    <p class="section-label">02 — What I do</p>
+    <h2>Stuff I do</h2>
+    <p>I can make beautiful designs for you, build web applications, capture moments through my lens — and best of all, fill your heart with melody!</p>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="icon"><i class="fa fa-camera-retro"></i></div>
+        <h3>Photography</h3>
+      </div>
+      <div class="skill-card">
+        <div class="icon"><i class="fa fa-pencil"></i></div>
+        <h3>Content Writing</h3>
+      </div>
+      <div class="skill-card">
+        <div class="icon"><i class="fa fa-code"></i></div>
+        <h3>Web Apps</h3>
+      </div>
+      <div class="skill-card">
+        <div class="icon"><i class="fa fa-music"></i></div>
+        <h3>Music</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE STRIP -->
+<div class="strip" id="strip-3"></div>
+
+<!-- QUOTE -->
+<section id="quote">
+  <div class="panel">
+    <p class="section-label">03 — One more thing</p>
+    <h2>A little reminder</h2>
+    <div class="quote-block">
+      <p>"Whoever is happy will make others happy too. You look beautiful when you smile! So yeah — keep on smiling! :)"</p>
+      <cite>— Manish Gurung</cite>
+    </div>
+    <p>Life is short and mountains are tall. Take a breath, play a chord, and enjoy the journey.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">04 — Get in touch</p>
+  <h2>Say Hello</h2>
+  <p class="sub">Drop me a message and I'll get back to you as soon as possible.</p>
+
+  <form class="contact-form" id="contactForm" novalidate>
+    <div class="row-2">
+      <input type="text"  id="name"    name="name"    placeholder="Your name"     required />
+      <input type="email" id="email"   name="email"   placeholder="Your email"    required />
+    </div>
+    <input type="text"    id="subject" name="subject"  placeholder="Subject"       required />
+    <textarea             id="message" name="message"  placeholder="Your message…" required></textarea>
+    <button type="submit" class="btn btn-primary">Send Message &nbsp;<i class="fa fa-paper-plane"></i></button>
+    <div class="form-msg" id="formMsg"></div>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <ul class="social-links">
+    <li><a href="https://twitter.com/manisjunggrg"         title="Twitter"   ><i class="fa fa-twitter"></i></a></li>
+    <li><a href="https://www.facebook.com/manisjunggrg"    title="Facebook"  ><i class="fa fa-facebook"></i></a></li>
+    <li><a href="https://www.instagram.com/_gurungmanish/" title="Instagram" ><i class="fa fa-instagram"></i></a></li>
+    <li><a href="https://github.com/manisjunggrg"          title="GitHub"    ><i class="fa fa-github"></i></a></li>
+    <li><a href="mailto:manisjunggrg@gmail.com"            title="Email"     ><i class="fa fa-envelope"></i></a></li>
+  </ul>
+  <p class="copy">&copy; 2024 Manish Gurung &nbsp;&middot;&nbsp; Made with <i class="fa fa-heart" style="color:var(--green);font-size:0.75em;"></i> in Nepal</p>
+</footer>
+
+<script>
+  /* ── smooth active nav highlight ── */
+  const navLinks = document.querySelectorAll('nav ul a');
+  const sections = document.querySelectorAll('section[id], #hero');
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.style.color = '');
+        const link = document.querySelector('nav ul a[href="#' + e.target.id + '"]');
+        if (link) link.style.color = '#8cd1a8';
+      }
+    });
+  }, { threshold: 0.45 });
+
+  sections.forEach(s => obs.observe(s));
+
+  /* ── contact form via EmailJS-free approach: mailto + fetch fallback ── */
+  const form    = document.getElementById('contactForm');
+  const msg     = document.getElementById('formMsg');
+
+  function showMsg(text, type) {
+    msg.textContent = text;
+    msg.className   = 'form-msg ' + type;
+    msg.style.display = 'block';
+    setTimeout(() => { msg.style.display = 'none'; }, 6000);
+  }
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const name    = document.getElementById('name').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    if (!name || !email || !message) {
+      showMsg('Please fill in all required fields.', 'error');
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showMsg('Please enter a valid email address.', 'error');
+      return;
+    }
+
+    /* Primary: FormSubmit.co (no backend needed, free) */
+    const btn = form.querySelector('button');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/manisjunggrg@gmail.com', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ name, email, subject, message })
+      });
+
+      if (res.ok) {
+        showMsg('✓  Message sent! I\'ll get back to you soon.', 'success');
+        form.reset();
+      } else {
+        throw new Error('server');
+      }
+    } catch (_) {
+      /* Fallback: open default mail client */
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+      window.location.href = `mailto:manisjunggrg@gmail.com?subject=${encodeURIComponent(subject || 'Portfolio Contact')}&body=${body}`;
+      showMsg('Opening your mail client as a fallback…', 'success');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = 'Send Message &nbsp;<i class="fa fa-paper-plane"></i>';
+    }
+  });
+</script>
+</body>
 </html>
