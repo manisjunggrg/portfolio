@@ -264,9 +264,13 @@
     /* ── SKILLS GRID ── */
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
       margin-top: 2rem;
+    }
+
+    @media (max-width: 540px) {
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     .skill-card {
@@ -538,6 +542,14 @@
         <div class="icon"><i class="fa fa-music"></i></div>
         <h3>Music</h3>
       </div>
+      <div class="skill-card">
+        <div class="icon"><i class="fa fa-cloud"></i></div>
+        <h3>Salesforce Dev</h3>
+      </div>
+      <div class="skill-card">
+        <div class="icon"><i class="fa fa-paint-brush"></i></div>
+        <h3>UI Design</h3>
+      </div>
     </div>
   </div>
 </section>
@@ -583,12 +595,12 @@
     <li><a href="https://www.facebook.com/manisjunggrg"    title="Facebook"  ><i class="fa fa-facebook"></i></a></li>
     <li><a href="https://www.instagram.com/_gurungmanish/" title="Instagram" ><i class="fa fa-instagram"></i></a></li>
     <li><a href="https://github.com/manisjunggrg"          title="GitHub"    ><i class="fa fa-github"></i></a></li>
-    <li><a href="mailto:manisjunggrg@gmail.com"            title="Email"     ><i class="fa fa-envelope"></i></a></li>
+    <li><a href="/cdn-cgi/l/email-protection#076a66696e746d72696060756047606a666e6b2964686a" title="Email"><i class="fa fa-envelope"></i></a></li>
   </ul>
   <p class="copy">&copy; 2024 Manish Gurung &nbsp;&middot;&nbsp; Made with <i class="fa fa-heart" style="color:var(--green);font-size:0.75em;"></i> in Nepal</p>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   /* ── smooth active nav highlight ── */
   const navLinks = document.querySelectorAll('nav ul a');
   const sections = document.querySelectorAll('section[id], #hero');
@@ -658,10 +670,4 @@
       window.location.href = `mailto:manisjunggrg@gmail.com?subject=${encodeURIComponent(subject || 'Portfolio Contact')}&body=${body}`;
       showMsg('Opening your mail client as a fallback…', 'success');
     } finally {
-      btn.disabled = false;
-      btn.innerHTML = 'Send Message &nbsp;<i class="fa fa-paper-plane"></i>';
-    }
-  });
-</script>
-</body>
-</html>
+      b
