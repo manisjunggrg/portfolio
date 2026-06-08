@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF Study Exam</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f3;
+    --bg-tertiary: #eeecea;
+    --text-primary: #1a1a18;
+    --text-secondary: #6b6b67;
+    --text-tertiary: #9c9c96;
+    --border-light: rgba(0,0,0,0.1);
+    --border-mid: rgba(0,0,0,0.18);
+    --border-strong: rgba(0,0,0,0.28);
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --blue-bg: #E6F1FB;
+    --blue-mid: #185FA5;
+    --green-bg: #EAF3DE;
+    --green-mid: #3B6D11;
+    --red-bg: #FCEBEB;
+    --red-mid: #993C1D;
+    --amber-bg: #FAEEDA;
+    --amber-mid: #854F0B;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-primary: #1e1e1c;
+      --bg-secondary: #2a2a28;
+      --bg-tertiary: #333330;
+      --text-primary: #f0f0ec;
+      --text-secondary: #9c9c96;
+      --text-tertiary: #6b6b67;
+      --border-light: rgba(255,255,255,0.08);
+      --border-mid: rgba(255,255,255,0.14);
+      --border-strong: rgba(255,255,255,0.22);
+      --blue-bg: #042C53;
+      --blue-mid: #85B7EB;
+      --green-bg: #173404;
+      --green-mid: #97C459;
+      --red-bg: #501313;
+      --red-mid: #F09595;
+      --amber-bg: #412402;
+      --amber-mid: #EF9F27;
+    }
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+    line-height: 1.6;
+  }
+
+  .app {
+    max-width: 740px;
+    margin: 0 auto;
+    background: var(--bg-primary);
+    border-radius: var(--radius-xl);
+    border: 0.5px solid var(--border-light);
+    padding: 2rem;
+  }
+
+  .header { margin-bottom: 2rem; }
+  .header h1 { font-size: 22px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+  .header p { font-size: 14px; color: var(--text-secondary); margin-top: 5px; }
+
+  .tabs { display: flex; gap: 2px; margin-bottom: 1.75rem; border-bottom: 0.5px solid var(--border-light); }
+  .tab { padding: 8px 16px; font-size: 14px; color: var(--text-secondary); cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; margin-bottom: -0.5px; transition: color 0.15s; display: flex; align-items: center; gap: 5px; font-family: var(--font); }
+  .tab.active { color: var(--text-primary); font-weight: 600; border-bottom-color: var(--text-primary); }
+  .tab:hover:not(.active) { color: var(--text-primary); }
+
+  /* Upload zone */
+  .upload-zone {
+    border: 1.5px dashed var(--border-mid);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .upload-zone:hover, .upload-zone.drag { border-color: var(--border-strong); background: var(--bg-secondary); }
+  .upload-zone i { font-size: 36px; color: var(--text-tertiary); margin-bottom: 12px; display: block; }
+  .upload-zone h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .upload-zone p { font-size: 13px; color: var(--text-secondary); }
+  .upload-zone input { display: none; }
+
+  /* Doc list */
+  .doc-list { display: flex; flex-direction: column; gap: 8px; margin-top: 1rem; }
+  .doc-card { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--bg-primary); border: 0.5px solid var(--border-light); border-radius: var(--radius-md); }
+  .doc-icon { width: 38px; height: 38px; background: var(--blue-bg); border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .doc-icon i { font-size: 20px; color: var(--blue-mid); }
+  .doc-info { flex: 1; min-width: 0; }
+  .doc-name { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .doc-meta { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+  .doc-actions { flex-shrink: 0; }
+
+  /* Buttons */
+  button { font-family: var(--font); }
+  .btn { padding: 7px 14px; font-size: 13px; border-radius: var(--radius-md); border: 0.5px solid var(--border-mid); background: none; cursor: pointer; color: var(--text-secondary); transition: background 0.12s, color 0.12s; display: inline-flex; align-items: center; gap: 5px; }
+  .btn:hover { background: var(--bg-secondary); color: var(--text-primary); }
+  .btn.primary { background: var(--text-primary); color: var(--bg-primary); border-color: transparent; font-weight: 500; }
+  .btn.primary:hover { opacity: 0.85; }
+  .btn.danger:hover { color: var(--red-mid); border-color: var(--red-bg); background: var(--red-bg); }
+  .btn.full { width: 100%; justify-content: center; padding: 10px; font-size: 14px; }
+
+  /* Exam setup */
+  .exam-setup { background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 1.25rem; }
+  .setup-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .setup-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 1rem; }
+  .form-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1rem; align-items: flex-end; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 130px; }
+  .form-group label { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
+  .form-group select, .form-group input[type=number] {
+    padding: 8px 10px; font-size: 13px; border-radius: var(--radius-md);
+    border: 0.5px solid var(--border-mid); background: var(--bg-primary);
+    color: var(--text-primary); font-family: var(--font);
+  }
+
+  /* Loading */
+  .loading-box { text-align: center; padding: 3rem 1rem; }
+  .spinner { width: 34px; height: 34px; border: 2.5px solid var(--border-light); border-top-color: var(--text-primary); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 1.25rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-box p { font-size: 15px; font-weight: 500; }
+  .loading-box .sub { font-size: 13px; color: var(--text-secondary); margin-top: 5px; font-weight: 400; }
+
+  /* Quiz */
+  .question-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  .q-progress { font-size: 13px; color: var(--text-secondary); }
+  .q-score-live { font-size: 13px; font-weight: 600; }
+  .progress-bar { height: 3px; background: var(--border-light); border-radius: 2px; margin-bottom: 1.5rem; }
+  .progress-fill { height: 100%; background: var(--text-primary); border-radius: 2px; transition: width 0.35s ease; }
+
+  .question-card { background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+  .q-text { font-size: 15px; font-weight: 500; line-height: 1.55; margin-bottom: 1rem; }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .option { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 0.5px solid var(--border-light); border-radius: var(--radius-md); cursor: pointer; font-size: 14px; line-height: 1.45; background: var(--bg-primary); transition: border-color 0.12s, background 0.12s; }
+  .option:hover:not(.disabled) { border-color: var(--border-strong); background: var(--bg-tertiary); }
+  .option.selected { border-color: var(--blue-mid); background: var(--blue-bg); }
+  .option.correct { border-color: var(--green-mid); background: var(--green-bg); }
+  .option.wrong { border-color: var(--red-mid); background: var(--red-bg); }
+  .option.disabled { cursor: default; }
+  .opt-label { width: 22px; height: 22px; border-radius: 50%; background: var(--bg-secondary); border: 0.5px solid var(--border-mid); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; color: var(--text-secondary); margin-top: 1px; }
+  .option.selected .opt-label { background: var(--blue-mid); border-color: var(--blue-mid); color: #fff; }
+  .option.correct .opt-label { background: var(--green-mid); border-color: var(--green-mid); color: #fff; }
+  .option.wrong .opt-label { background: var(--red-mid); border-color: var(--red-mid); color: #fff; }
+
+  .explain-box { margin-top: 12px; padding: 10px 12px; background: var(--bg-primary); border-radius: var(--radius-md); font-size: 13px; color: var(--text-secondary); line-height: 1.6; border-left: 2px solid var(--border-mid); }
+  .explain-box strong { color: var(--text-primary); font-weight: 600; }
+
+  .q-nav { display: flex; justify-content: space-between; }
+
+  /* Results */
+  .results-header { text-align: center; padding: 1.5rem 0 1.25rem; }
+  .score-circle { width: 110px; height: 110px; border-radius: 50%; border: 4px solid var(--border-light); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+  .score-num { font-size: 30px; font-weight: 700; }
+  .score-den { font-size: 13px; color: var(--text-secondary); }
+  .results-header h2 { font-size: 20px; font-weight: 600; }
+  .results-header p { font-size: 14px; color: var(--text-secondary); margin-top: 5px; }
+
+  .result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 1.25rem 0 1.5rem; }
+  .result-stat { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 14px; text-align: center; }
+  .result-stat .val { font-size: 24px; font-weight: 700; }
+  .result-stat .lbl { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
+  .val.green { color: var(--green-mid); }
+  .val.red { color: var(--red-mid); }
+
+  .review-section { margin-top: 1.5rem; }
+  .review-title { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+  .review-list { display: flex; flex-direction: column; gap: 10px; }
+  .review-item { padding: 12px 14px; border-radius: var(--radius-md); border: 0.5px solid var(--border-light); font-size: 13px; }
+  .review-item.r-correct { border-left: 3px solid var(--green-mid); }
+  .review-item.r-wrong { border-left: 3px solid var(--red-mid); }
+  .ri-q { font-weight: 500; margin-bottom: 6px; line-height: 1.4; }
+  .ri-ans { color: var(--text-secondary); margin-top: 3px; }
+  .ri-correct { color: var(--green-mid); font-weight: 500; }
+  .ri-wrong { color: var(--red-mid); font-weight: 500; }
+  .ri-explain { font-size: 12px; color: var(--text-tertiary); margin-top: 5px; line-height: 1.5; }
+
+  .empty-state { text-align: center; padding: 2.5rem; color: var(--text-tertiary); font-size: 14px; }
+  .empty-state i { font-size: 32px; display: block; margin-bottom: 10px; }
+
+  .alert { padding: 10px 14px; border-radius: var(--radius-md); font-size: 13px; margin-bottom: 1rem; }
+  .alert.warning { background: var(--amber-bg); color: var(--amber-mid); border-left: 3px solid var(--amber-mid); }
+
+  .hidden { display: none !important; }
+
+  /* API key notice */
+  .api-notice { background: var(--amber-bg); border: 0.5px solid var(--amber-mid); border-radius: var(--radius-md); padding: 12px 14px; font-size: 13px; color: var(--amber-mid); margin-bottom: 1.25rem; display: flex; gap: 8px; align-items: flex-start; }
+  .api-notice i { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* API key input */
+  .key-section { margin-bottom: 1.25rem; }
+  .key-section label { font-size: 12px; color: var(--text-secondary); font-weight: 500; display: block; margin-bottom: 5px; }
+  .key-row { display: flex; gap: 8px; }
+  .key-row input { flex: 1; padding: 8px 10px; font-size: 13px; border-radius: var(--radius-md); border: 0.5px solid var(--border-mid); background: var(--bg-primary); color: var(--text-primary); font-family: var(--font); }
+
+  @media (max-width: 500px) {
+    .app { padding: 1.25rem; }
+    .form-row { flex-direction: column; }
+    .result-grid { grid-template-columns: repeat(3,1fr); gap: 6px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app" role="main">
+  <div class="header">
+    <h1><i class="ti ti-book-2"></i> PDF Study Exam</h1>
+    <p>Upload your study material and take an AI-generated MCQ quiz based on the content.</p>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" onclick="switchTab('upload')" role="tab"><i class="ti ti-files"></i> My PDFs</button>
+    <button class="tab" onclick="switchTab('exam')" id="tab-exam" role="tab"><i class="ti ti-clipboard-list"></i> Take Exam</button>
+    <button class="tab" onclick="switchTab('results')" id="tab-results" role="tab"><i class="ti ti-chart-bar"></i> Results</button>
+  </div>
+
+  <!-- UPLOAD PANEL -->
+  <div id="panel-upload">
+    <div class="api-notice">
+      <i class="ti ti-info-circle"></i>
+      <span>This app uses the Anthropic Claude API to generate questions. Enter your API key in the <strong>Take Exam</strong> tab before generating. Your key is stored only in your browser session.</span>
+    </div>
+
+    <div class="upload-zone" id="dropzone"
+         onclick="document.getElementById('fileInput').click()"
+         ondragover="event.preventDefault();this.classList.add('drag')"
+         ondragleave="this.classList.remove('drag')"
+         ondrop="handleDrop(event)"
+         role="button" tabindex="0" aria-label="Upload PDF files">
+      <i class="ti ti-cloud-upload"></i>
+      <h3>Drop PDF files here or click to browse</h3>
+      <p>Supports PDF files — text is extracted in your browser, nothing is sent to any server except to Claude for question generation.</p>
+      <input type="file" id="fileInput" accept=".pdf" multiple onchange="handleFileSelect(event)">
+    </div>
+
+    <div class="doc-list" id="docList">
+      <div class="empty-state" id="emptyDocs">
+        <i class="ti ti-inbox"></i>
+        No PDFs uploaded yet. Add your study material above.
+      </div>
+    </div>
+  </div>
+
+  <!-- EXAM PANEL -->
+  <div id="panel-exam" class="hidden">
+    <div id="examSetup">
+      <div class="key-section">
+        <label for="apiKeyInput"><i class="ti ti-key" style="font-size:12px;margin-right:3px"></i> Anthropic API key</label>
+        <div class="key-row">
+          <input type="password" id="apiKeyInput" placeholder="sk-ant-..." autocomplete="off" spellcheck="false">
+          <button class="btn primary" onclick="saveKey()"><i class="ti ti-check"></i> Save</button>
+        </div>
+        <p style="font-size:11px;color:var(--text-tertiary);margin-top:5px;">Get a key at <a href="https://console.anthropic.com" target="_blank" rel="noopener" style="color:var(--blue-mid)">console.anthropic.com</a>. Stored in sessionStorage only.</p>
+      </div>
+
+      <div class="exam-setup">
+        <p class="setup-title">Exam settings</p>
+        <p class="setup-sub">Choose your source, number of questions, and difficulty, then generate.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Source PDF</label>
+            <select id="sourcePdf">
+              <option value="all">All uploaded PDFs</option>
+            </select>
+          </div>
+          <div class="form-group" style="max-width:110px;">
+            <label>Questions</label>
+            <input type="number" id="numQuestions" value="5" min="3" max="15">
+          </div>
+          <div class="form-group" style="max-width:140px;">
+            <label>Difficulty</label>
+            <select id="difficulty">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn primary full" onclick="generateExam()"><i class="ti ti-wand"></i> Generate exam</button>
+      </div>
+    </div>
+
+    <div id="examLoading" class="hidden">
+      <div class="loading-box">
+        <div class="spinner"></div>
+        <p>Generating exam questions...</p>
+        <p class="sub" id="loadingStatus">Reading PDF content and crafting questions</p>
+      </div>
+    </div>
+
+    <div id="examQuiz" class="hidden">
+      <div class="question-header">
+        <span class="q-progress" id="qProgress">Question 1 of 5</span>
+        <span class="q-score-live" id="qScoreLive">Score: 0/0</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="question-card">
+        <p class="q-text" id="questionText"></p>
+        <div class="options" id="optionsContainer"></div>
+        <div class="explain-box hidden" id="explainBox"></div>
+      </div>
+      <div class="q-nav">
+        <button class="btn" onclick="prevQuestion()" id="prevBtn"><i class="ti ti-arrow-left"></i> Previous</button>
+        <button class="btn primary" onclick="nextQuestion()" id="nextBtn">Next <i class="ti ti-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS PANEL -->
+  <div id="panel-results" class="hidden">
+    <div id="noResults" class="empty-state">
+      <i class="ti ti-chart-bar"></i>
+      Complete an exam to see your results here.
+    </div>
+    <div id="resultsContent" class="hidden">
+      <div class="results-header">
+        <div class="score-circle" id="scoreCircle">
+          <span class="score-num" id="scoreNum">-</span>
+          <span class="score-den" id="scoreDen">of -</span>
+        </div>
+        <h2 id="resultTitle">Exam complete</h2>
+        <p id="resultSubtitle"></p>
+      </div>
+      <div class="result-grid">
+        <div class="result-stat"><div class="val green" id="rCorrect">0</div><div class="lbl">Correct</div></div>
+        <div class="result-stat"><div class="val red" id="rWrong">0</div><div class="lbl">Wrong</div></div>
+        <div class="result-stat"><div class="val" id="rPct">0%</div><div class="lbl">Score</div></div>
+      </div>
+      <button class="btn primary full" onclick="switchTab('exam')" style="margin-bottom:1.5rem;"><i class="ti ti-refresh"></i> Take another exam</button>
+      <div class="review-section">
+        <p class="review-title">Review answers</p>
+        <div class="review-list" id="reviewList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  const pdfjsLib = window['pdfjs-dist/build/pdf'];
+  if (pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  let docs = [];
+  let questions = [];
+  let currentQ = 0;
+  let answers = {};
+  let scoreSoFar = 0;
+  let answered = 0;
+
+  function switchTab(tab) {
+    ['upload','exam','results'].forEach((t, i) => {
+      document.getElementById('panel-' + t).classList.toggle('hidden', t !== tab);
+      document.querySelectorAll('.tab')[i].classList.toggle('active', t === tab);
+    });
+  }
+
+  function saveKey() {
+    const k = document.getElementById('apiKeyInput').value.trim();
+    if (!k.startsWith('sk-ant-')) { alert('Please enter a valid Anthropic API key (starts with sk-ant-).'); return; }
+    sessionStorage.setItem('anthropic_api_key', k);
+    document.getElementById('apiKeyInput').value = '●'.repeat(24);
+    alert('API key saved for this session.');
+  }
+
+  function getKey() {
+    return sessionStorage.getItem('anthropic_api_key') || document.getElementById('apiKeyInput').value.trim();
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    document.getElementById('dropzone').classList.remove('drag');
+    [...e.dataTransfer.files].filter(f => f.type === 'application/pdf').forEach(addDoc);
+  }
+
+  function handleFileSelect(e) {
+    [...e.target.files].forEach(addDoc);
+    e.target.value = '';
+  }
+
+  async function extractPdfText(file) {
+    if (!pdfjsLib) return file.name;
+    try {
+      const buf = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+      let text = '';
+      const maxPages = Math.min(pdf.numPages, 25);
+      for (let i = 1; i <= maxPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        text += content.items.map(s => s.str).join(' ') + '\n';
+      }
+      return text.trim().slice(0, 14000);
+    } catch(e) {
+      return '';
+    }
+  }
+
+  async function addDoc(file) {
+    if (docs.find(d => d.name === file.name)) return;
+    const id = Date.now() + Math.random();
+    const sizeMb = (file.size / 1048576).toFixed(1);
+    const doc = { id, name: file.name, size: sizeMb, text: '', extracting: true };
+    docs.push(doc);
+    renderDocs();
+    doc.text = await extractPdfText(file);
+    doc.extracting = false;
+    renderDocs();
+    updateSourceSelect();
+  }
+
+  function removeDoc(id) {
+    docs = docs.filter(d => d.id !== id);
+    renderDocs();
+    updateSourceSelect();
+  }
+
+  function renderDocs() {
+    const list = document.getElementById('docList');
+    if (docs.length === 0) {
+      list.innerHTML = '<div class="empty-state" id="emptyDocs"><i class="ti ti-inbox"></i>No PDFs uploaded yet. Add your study material above.</div>';
+      return;
+    }
+    list.innerHTML = docs.map(d => `
+      <div class="doc-card">
+        <div class="doc-icon"><i class="ti ti-file-type-pdf"></i></div>
+        <div class="doc-info">
+          <div class="doc-name" title="${d.name}">${d.name}</div>
+          <div class="doc-meta">${d.size} MB · ${d.extracting ? '<span style="color:var(--amber-mid)">extracting text...</span>' : (d.text ? d.text.length.toLocaleString() + ' chars extracted' : 'text unavailable')}</div>
+        </div>
+        <div class="doc-actions">
+          <button class="btn danger" onclick="removeDoc(${d.id})" title="Remove PDF" aria-label="Remove ${d.name}"><i class="ti ti-trash"></i></button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function updateSourceSelect() {
+    const sel = document.getElementById('sourcePdf');
+    sel.innerHTML = '<option value="all">All uploaded PDFs</option>' +
+      docs.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
+  }
+
+  async function generateExam() {
+    const apiKey = getKey();
+    if (!apiKey || !apiKey.startsWith('sk-ant-')) {
+      alert('Please enter your Anthropic API key first.');
+      return;
+    }
+    if (docs.length === 0) {
+      alert('Please upload at least one PDF first.');
+      switchTab('upload');
+      return;
+    }
+
+    const sourceId = document.getElementById('sourcePdf').value;
+    const n = Math.min(15, Math.max(3, parseInt(document.getElementById('numQuestions').value) || 5));
+    const diff = document.getElementById('difficulty').value;
+
+    let content = sourceId === 'all'
+      ? docs.map(d => d.text || d.name).join('\n\n')
+      : (docs.find(d => String(d.id) === sourceId) || {}).text || '';
+
+    document.getElementById('examSetup').classList.add('hidden');
+    document.getElementById('examLoading').classList.remove('hidden');
+    document.getElementById('examQuiz').classList.add('hidden');
+
+    const statusEl = document.getElementById('loadingStatus');
+    const msgs = ['Analyzing PDF content...','Identifying key concepts...','Crafting questions...','Generating answer choices...','Preparing your exam...'];
+    let mi = 0;
+    const ticker = setInterval(() => { if (mi < msgs.length) statusEl.textContent = msgs[mi++]; }, 1800);
+
+    try {
+      const prompt = `You are an expert exam question creator. Based on the following study material, generate exactly ${n} multiple-choice questions at ${diff} difficulty.
+
+Study material:
+${content.slice(0, 10000)}
+
+Return ONLY a JSON array (no markdown, no extra text) with this exact structure:
+[
+  {
+    "question": "Question text here?",
+    "options": ["Option A", "Option B", "Option C", "Option D"],
+    "correct": 0,
+    "explanation": "Brief explanation of why this is correct."
+  }
+]
+
+Rules:
+- "correct" is the 0-based index of the correct option
+- All 4 options must be plausible but only one correct
+- Questions must be based strictly on the provided material
+- ${diff === 'easy' ? 'Keep questions straightforward and factual.' : diff === 'hard' ? 'Make questions analytical, requiring inference and deep understanding.' : 'Mix factual recall with some application questions.'}
+- Return ONLY the JSON array, nothing else.`;
+
+      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 3000,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+
+      clearInterval(ticker);
+
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.error?.message || `API error ${resp.status}`);
+      }
+
+      const data = await resp.json();
+      let raw = (data.content || []).map(b => b.text || '').join('');
+      raw = raw.replace(/```json|```/g, '').trim();
+      const match = raw.match(/\[[\s\S]*\]/);
+      if (!match) throw new Error('Could not parse questions from response.');
+      questions = JSON.parse(match[0]);
+      if (!Array.isArray(questions) || questions.length === 0) throw new Error('No questions generated.');
+
+      currentQ = 0; answers = {}; scoreSoFar = 0; answered = 0;
+      document.getElementById('examLoading').classList.add('hidden');
+      document.getElementById('examQuiz').classList.remove('hidden');
+      renderQuestion();
+
+    } catch(err) {
+      clearInterval(ticker);
+      document.getElementById('examLoading').classList.add('hidden');
+      document.getElementById('examSetup').classList.remove('hidden');
+      alert('Failed to generate questions.\n\n' + err.message);
+    }
+  }
+
+  function renderQuestion() {
+    const q = questions[currentQ];
+    const total = questions.length;
+    document.getElementById('qProgress').textContent = `Question ${currentQ + 1} of ${total}`;
+    document.getElementById('qScoreLive').textContent = `Score: ${scoreSoFar}/${answered}`;
+    document.getElementById('progressFill').style.width = (((currentQ) / total) * 100) + '%';
+    document.getElementById('questionText').textContent = q.question;
+
+    const labels = ['A','B','C','D'];
+    const ans = answers[currentQ];
+    const isAnswered = ans !== undefined;
+
+    document.getElementById('optionsContainer').innerHTML = q.options.map((opt, i) => {
+      let cls = 'option';
+      if (isAnswered) {
+        cls += ' disabled';
+        if (i === q.correct) cls += ' correct';
+        else if (i === ans) cls += ' wrong';
+      }
+      return `<div class="${cls}" onclick="selectOption(${i})">
+        <div class="opt-label">${labels[i]}</div>
+        <span>${opt}</span>
+      </div>`;
+    }).join('');
+
+    const ex = document.getElementById('explainBox');
+    if (isAnswered) {
+      ex.innerHTML = `<strong>${ans === q.correct ? '✓ Correct!' : '✗ Incorrect.'}</strong> ${q.explanation}`;
+      ex.classList.remove('hidden');
+    } else {
+      ex.classList.add('hidden');
+    }
+
+    document.getElementById('prevBtn').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
+    const isLast = currentQ === total - 1;
+    const nextBtn = document.getElementById('nextBtn');
+    if (isLast && Object.keys(answers).length === total) {
+      nextBtn.innerHTML = '<i class="ti ti-chart-bar"></i> View Results';
+      nextBtn.onclick = showResults;
+    } else {
+      nextBtn.innerHTML = isLast ? 'Finish <i class="ti ti-flag"></i>' : 'Next <i class="ti ti-arrow-right"></i>';
+      nextBtn.onclick = nextQuestion;
+    }
+  }
+
+  function selectOption(i) {
+    if (answers[currentQ] !== undefined) return;
+    answers[currentQ] = i;
+    answered++;
+    if (i === questions[currentQ].correct) scoreSoFar++;
+    renderQuestion();
+  }
+
+  function nextQuestion() {
+    if (currentQ < questions.length - 1) { currentQ++; renderQuestion(); }
+    else if (Object.keys(answers).length === questions.length) showResults();
+  }
+
+  function prevQuestion() {
+    if (currentQ > 0) { currentQ--; renderQuestion(); }
+  }
+
+  function showResults() {
+    const total = questions.length;
+    const correct = questions.filter((q, i) => answers[i] === q.correct).length;
+    const wrong = total - correct;
+    const pct = Math.round((correct / total) * 100);
+
+    document.getElementById('scoreNum').textContent = correct;
+    document.getElementById('scoreDen').textContent = `of ${total}`;
+    const circle = document.getElementById('scoreCircle');
+    circle.style.borderColor = pct >= 70 ? 'var(--green-mid)' : pct >= 50 ? 'var(--amber-mid)' : 'var(--red-mid)';
+    document.getElementById('resultTitle').textContent = pct >= 80 ? 'Excellent work!' : pct >= 60 ? 'Good effort!' : 'Keep practicing!';
+    document.getElementById('resultSubtitle').textContent = `You scored ${pct}% on this exam.`;
+    document.getElementById('rCorrect').textContent = correct;
+    document.getElementById('rWrong').textContent = wrong;
+    document.getElementById('rPct').textContent = pct + '%';
+
+    document.getElementById('reviewList').innerHTML = questions.map((q, i) => {
+      const ua = answers[i];
+      const ok = ua === q.correct;
+      return `<div class="review-item ${ok ? 'r-correct' : 'r-wrong'}">
+        <div class="ri-q">Q${i+1}. ${q.question}</div>
+        <div class="ri-ans">Your answer: <span class="${ok ? 'ri-correct' : 'ri-wrong'}">${ua !== undefined ? q.options[ua] : 'Not answered'}</span></div>
+        ${!ok ? `<div class="ri-ans">Correct: <span class="ri-correct">${q.options[q.correct]}</span></div>` : ''}
+        <div class="ri-explain">${q.explanation}</div>
+      </div>`;
+    }).join('');
+
+    document.getElementById('noResults').classList.add('hidden');
+    document.getElementById('resultsContent').classList.remove('hidden');
+    switchTab('results');
+    document.getElementById('examSetup').classList.remove('hidden');
+    document.getElementById('examQuiz').classList.add('hidden');
+  }
+</script>
+</body>
+</html>
