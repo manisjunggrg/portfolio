@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Match Card — Duel Draw</title>
+<style>
+  :root{
+    --ink:#161310;
+    --paper:#efe9dd;
+    --paper-2:#e2dac8;
+    --red:#b4332b;
+    --red-deep:#7e211b;
+    --gold:#a8842f;
+    --line:#161310;
+    --shadow: 6px 6px 0 rgba(22,19,16,0.18);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+
+  body{
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(22,19,16,0.06) 1px, transparent 0);
+    background-size: 14px 14px;
+    color:var(--ink);
+    font-family: 'Courier New', 'Roboto Mono', monospace;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding: 36px 16px 80px;
+  }
+
+  @font-face{
+    font-family:'DisplayCond';
+    src: local('Arial Narrow Bold');
+  }
+
+  .wrap{
+    width:100%;
+    max-width:640px;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    text-align:center;
+    margin-bottom: 28px;
+    position:relative;
+  }
+
+  .eyebrow{
+    font-size:11px;
+    letter-spacing:0.32em;
+    text-transform:uppercase;
+    color:var(--red-deep);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+
+  h1{
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight:900;
+    font-style:italic;
+    font-size: clamp(40px, 11vw, 64px);
+    line-height:0.92;
+    margin:0;
+    letter-spacing:-0.01em;
+    text-transform:uppercase;
+    color:var(--ink);
+  }
+  h1 span{
+    display:block;
+    color:var(--red);
+    -webkit-text-stroke: 1.5px var(--ink);
+  }
+
+  .subline{
+    margin-top:10px;
+    font-size:13px;
+    color:#5a5448;
+    max-width:420px;
+    margin-left:auto;
+    margin-right:auto;
+    line-height:1.5;
+  }
+
+  .ticket-rule{
+    border:none;
+    border-top:3px solid var(--ink);
+    margin:22px 0;
+    position:relative;
+  }
+  .ticket-rule::before, .ticket-rule::after{
+    content:'';
+    position:absolute;
+    top:-7px;
+    width:14px;
+    height:14px;
+    background:var(--paper);
+    border-radius:50%;
+    border:2px solid var(--ink);
+  }
+  .ticket-rule::before{ left:-22px; }
+  .ticket-rule::after{ right:-22px; }
+
+  /* ---------- Roster panel ---------- */
+  .panel{
+    background:var(--paper-2);
+    border:2px solid var(--ink);
+    box-shadow: var(--shadow);
+    padding: 20px 20px 22px;
+    margin-bottom: 28px;
+  }
+
+  .panel-title{
+    font-size:12px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    font-weight:700;
+    color:var(--ink);
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:14px;
+    border-bottom:2px dashed var(--ink);
+    padding-bottom:8px;
+  }
+  .panel-title .count{
+    color:var(--red);
+    font-style:normal;
+  }
+
+  .entry-row{
+    display:flex;
+    gap:8px;
+    margin-bottom:12px;
+  }
+
+  input[type="text"]{
+    flex:1;
+    font-family:inherit;
+    font-size:15px;
+    padding:11px 12px;
+    border:2px solid var(--ink);
+    background:var(--paper);
+    color:var(--ink);
+    outline:none;
+  }
+  input[type="text"]::placeholder{ color:#9c9282; }
+  input[type="text"]:focus{
+    box-shadow: 3px 3px 0 rgba(22,19,16,0.2);
+  }
+
+  .btn{
+    font-family:inherit;
+    font-weight:700;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    font-size:13px;
+    border:2px solid var(--ink);
+    background:var(--ink);
+    color:var(--paper);
+    padding:11px 16px;
+    cursor:pointer;
+    transition: transform 0.08s ease;
+  }
+  .btn:active{ transform: translate(2px,2px); }
+  .btn:focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
+
+  .btn.ghost{
+    background:transparent;
+    color:var(--ink);
+  }
+  .btn.ghost:hover{ background:rgba(22,19,16,0.06); }
+
+  .btn.full{ width:100%; }
+
+  #roster-list{
+    list-style:none;
+    margin:0 0 16px;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+
+  #roster-list li{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:var(--paper);
+    border:1.5px solid var(--ink);
+    padding:9px 12px;
+    font-size:14px;
+    animation: slideIn 0.18s ease-out;
+  }
+
+  #roster-list li .name{
+    font-weight:700;
+  }
+
+  #roster-list li .remove{
+    background:none;
+    border:none;
+    color:var(--red);
+    font-weight:900;
+    cursor:pointer;
+    font-size:15px;
+    line-height:1;
+    padding:2px 6px;
+    font-family:inherit;
+  }
+  #roster-list li .remove:hover{ color:var(--red-deep); }
+  #roster-list li .remove:focus-visible{ outline:2px solid var(--gold); }
+
+  .empty-note{
+    font-size:13px;
+    color:#7a7264;
+    font-style:italic;
+    padding:10px 2px 4px;
+  }
+
+  .draw-row{
+    display:flex;
+    gap:10px;
+  }
+
+  /* ---------- Card / Results ---------- */
+  #card-area{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  .card-header{
+    text-align:center;
+    margin-bottom:6px;
+  }
+  .card-header .label{
+    font-size:11px;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:700;
+  }
+
+  .bout{
+    background:var(--ink);
+    color:var(--paper);
+    border:2px solid var(--ink);
+    box-shadow: var(--shadow);
+    padding:18px 16px;
+    display:grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items:center;
+    gap:10px;
+    opacity:0;
+    transform: translateY(10px);
+    animation: cardIn 0.45s ease-out forwards;
+  }
+
+  .bout .slot{
+    text-align:center;
+    min-width:0;
+  }
+  .bout .slot .tag{
+    display:block;
+    font-size:10px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color: var(--gold);
+    margin-bottom:5px;
+  }
+  .bout .slot.fighter-b .tag{ color:#9aa3b0; }
+
+  .bout .slot .fname{
+    font-family: Georgia, serif;
+    font-weight:900;
+    font-style:italic;
+    font-size: clamp(17px, 5vw, 22px);
+    text-transform:uppercase;
+    line-height:1.1;
+    word-break:break-word;
+  }
+
+  .bout .vs{
+    font-family: Georgia, serif;
+    font-style:italic;
+    font-weight:900;
+    color:var(--red);
+    font-size:15px;
+    border-left:1px solid rgba(239,233,221,0.25);
+    border-right:1px solid rgba(239,233,221,0.25);
+    padding:0 12px;
+    -webkit-text-stroke: 0.6px var(--paper);
+  }
+
+  .bout-number{
+    text-align:center;
+    font-size:11px;
+    letter-spacing:0.2em;
+    color:#7a7264;
+    text-transform:uppercase;
+    margin-top:-2px;
+  }
+
+  .bye-card{
+    background:var(--paper);
+    border:2px dashed var(--ink);
+    padding:14px 16px;
+    text-align:center;
+    font-size:13px;
+    color:var(--red-deep);
+    font-weight:700;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+  }
+  .bye-card .fname{
+    display:block;
+    font-family:Georgia,serif;
+    font-style:italic;
+    font-weight:900;
+    font-size:18px;
+    color:var(--ink);
+    text-transform:uppercase;
+    margin-top:4px;
+    -webkit-text-stroke:0;
+  }
+
+  #placeholder{
+    text-align:center;
+    padding: 36px 18px;
+    border:2px dashed var(--ink);
+    color:#7a7264;
+    font-size:13px;
+    line-height:1.6;
+  }
+
+  @keyframes cardIn{
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @keyframes slideIn{
+    from{ opacity:0; transform:translateX(-6px); }
+    to{ opacity:1; transform:translateX(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .bout{ animation:none; opacity:1; transform:none; }
+    #roster-list li{ animation:none; }
+  }
+
+  footer{
+    margin-top:30px;
+    font-size:11px;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:#a39a89;
+    text-align:center;
+  }
+
+  @media (max-width:420px){
+    .bout{ grid-template-columns: 1fr; text-align:center; }
+    .bout .vs{ border:none; padding:4px 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Tonight's Card</div>
+    <h1>Duel<span>Draw</span></h1>
+    <p class="subline">Add every name to the roster, then pull the card. Every name gets thrown into the hat and paired off at random — one-on-one, no repeats, no rigging.</p>
+  </header>
+
+  <div class="panel">
+    <div class="panel-title">
+      <span>Roster</span>
+      <span class="count" id="roster-count">0 names</span>
+    </div>
+
+    <form id="entry-form" class="entry-row">
+      <input type="text" id="name-input" placeholder="Type a name and hit enter…" autocomplete="off" maxlength="40">
+      <button type="submit" class="btn">Add</button>
+    </form>
+
+    <ul id="roster-list"></ul>
+    <p class="empty-note" id="empty-note">No names yet — add at least two to draw a card.</p>
+
+    <div class="draw-row">
+      <button class="btn full" id="draw-btn" disabled>Pull the card</button>
+      <button class="btn ghost" id="clear-btn" title="Clear roster">Clear</button>
+    </div>
+  </div>
+
+  <div id="card-area">
+    <div id="placeholder">The card is empty.<br>Add names above, then pull the card to see tonight's matchups.</div>
+  </div>
+
+  <footer>Fair draw, every time — Fisher–Yates shuffle</footer>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  const STORAGE_KEY = 'duelDraw.roster';
+  let roster = [];
+
+  const form = document.getElementById('entry-form');
+  const input = document.getElementById('name-input');
+  const list = document.getElementById('roster-list');
+  const countLabel = document.getElementById('roster-count');
+  const emptyNote = document.getElementById('empty-note');
+  const drawBtn = document.getElementById('draw-btn');
+  const clearBtn = document.getElementById('clear-btn');
+  const cardArea = document.getElementById('card-area');
+
+  function loadRoster(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        const parsed = JSON.parse(raw);
+        if(Array.isArray(parsed)) roster = parsed.filter(n => typeof n === 'string');
+      }
+    }catch(e){ /* ignore corrupt storage */ }
+  }
+
+  function saveRoster(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(roster)); }
+    catch(e){ /* storage unavailable, proceed without persistence */ }
+  }
+
+  function renderRoster(){
+    list.innerHTML = '';
+    roster.forEach((name, i) => {
+      const li = document.createElement('li');
+
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'name';
+      nameSpan.textContent = name;
+
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'remove';
+      removeBtn.type = 'button';
+      removeBtn.setAttribute('aria-label', 'Remove ' + name);
+      removeBtn.textContent = '✕';
+      removeBtn.addEventListener('click', () => {
+        roster.splice(i, 1);
+        saveRoster();
+        renderRoster();
+      });
+
+      li.appendChild(nameSpan);
+      li.appendChild(removeBtn);
+      list.appendChild(li);
+    });
+
+    countLabel.textContent = roster.length + (roster.length === 1 ? ' name' : ' names');
+    emptyNote.style.display = roster.length === 0 ? 'block' : 'none';
+    drawBtn.disabled = roster.length < 2;
+  }
+
+  function addName(raw){
+    const name = raw.trim();
+    if(!name) return;
+    roster.push(name);
+    saveRoster();
+    renderRoster();
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    addName(input.value);
+    input.value = '';
+    input.focus();
+  });
+
+  clearBtn.addEventListener('click', () => {
+    if(roster.length === 0) return;
+    if(confirm('Clear the whole roster? This can\'t be undone.')){
+      roster = [];
+      saveRoster();
+      renderRoster();
+      cardArea.innerHTML = '<div id="placeholder">The card is empty.<br>Add names above, then pull the card to see tonight\'s matchups.</div>';
+    }
+  });
+
+  // Fisher–Yates shuffle — unbiased, every permutation equally likely
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function pullCard(){
+    const shuffled = shuffle(roster);
+    const bouts = [];
+    let bye = null;
+
+    for(let i = 0; i < shuffled.length; i += 2){
+      if(i + 1 < shuffled.length){
+        bouts.push([shuffled[i], shuffled[i+1]]);
+      } else {
+        bye = shuffled[i];
+      }
+    }
+
+    cardArea.innerHTML = '';
+
+    const header = document.createElement('div');
+    header.className = 'card-header';
+    header.innerHTML = '<span class="label">' + bouts.length + (bouts.length === 1 ? ' Bout' : ' Bouts') + ' Drawn</span>';
+    cardArea.appendChild(header);
+
+    bouts.forEach((pair, idx) => {
+      const bout = document.createElement('div');
+      bout.className = 'bout';
+      bout.style.animationDelay = (idx * 0.08) + 's';
+      bout.innerHTML =
+        '<div class="slot fighter-a">' +
+          '<span class="tag">Corner A</span>' +
+          '<span class="fname">' + escapeHtml(pair[0]) + '</span>' +
+        '</div>' +
+        '<div class="vs">VS</div>' +
+        '<div class="slot fighter-b">' +
+          '<span class="tag">Corner B</span>' +
+          '<span class="fname">' + escapeHtml(pair[1]) + '</span>' +
+        '</div>';
+      cardArea.appendChild(bout);
+
+      const num = document.createElement('div');
+      num.className = 'bout-number';
+      num.textContent = 'Bout ' + (idx + 1);
+      cardArea.appendChild(num);
+    });
+
+    if(bye){
+      const byeCard = document.createElement('div');
+      byeCard.className = 'bye-card';
+      byeCard.innerHTML = 'Odd one out — sits this round<span class="fname">' + escapeHtml(bye) + '</span>';
+      cardArea.appendChild(byeCard);
+    }
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  drawBtn.addEventListener('click', pullCard);
+
+  loadRoster();
+  renderRoster();
+})();
+</script>
+
+</body>
+</html>
