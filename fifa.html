@@ -3,1122 +3,652 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Official Draw — Group Stage</title>
+<title>MATCHDAY — Kickoff Draw</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
-
-  :root {
-    --navy: #0A1628;
-    --navy-2: #0F2040;
-    --navy-3: #162B52;
-    --gold: #C8973A;
-    --gold-light: #E8B84B;
-    --gold-pale: #F5E6C8;
-    --red: #C0392B;
-    --red-mid: #E74C3C;
-    --white: #F8F5EF;
-    --white-dim: rgba(248,245,239,0.7);
-    --white-mute: rgba(248,245,239,0.3);
-    --white-faint: rgba(248,245,239,0.08);
-    --green: #27AE60;
-    --green-pale: #1E8449;
+  :root{
+    --pitch-1:#0a1f14;
+    --pitch-2:#0e2c1c;
+    --panel:#0d2118;
+    --panel-2:#123726;
+    --line:#1d4a32;
+    --white:#eef7ef;
+    --mute:#7fa896;
+    --lime:#c8ff3d;
+    --lime-deep:#9bd61a;
+    --cyan:#3de8e0;
+    --gold:#ffcf4d;
+    --shadow: 0 10px 0 rgba(0,0,0,0.35);
   }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
 
-  html, body {
-    background: var(--navy);
-    color: var(--white);
-    font-family: 'Inter', system-ui, sans-serif;
-    min-height: 100vh;
+  body{
+    background: var(--pitch-1);
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.025) 0 2px, transparent 2px 64px),
+      radial-gradient(ellipse at top, var(--pitch-2) 0%, var(--pitch-1) 70%);
+    color:var(--white);
+    font-family: 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding: 28px 14px 70px;
+    overflow-x:hidden;
   }
 
-  body {
-    background:
-      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(200,151,58,0.12) 0%, transparent 70%),
-      linear-gradient(180deg, #0A1628 0%, #07101E 100%);
+  .wrap{
+    width:100%;
+    max-width:600px;
   }
 
-  /* ── Layout ── */
-  .shell {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 20px 80px;
+  /* ---------- Header ---------- */
+  header{
+    position:relative;
+    margin-bottom: 26px;
+    padding: 4px 0 16px;
   }
 
-  /* ── Header ── */
-  .site-header {
-    text-align: center;
-    padding: 52px 20px 36px;
-    position: relative;
+  .league-tag{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:11px;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    color:var(--lime);
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .league-tag::before{
+    content:'';
+    width:8px;height:8px;
+    background:var(--lime);
+    clip-path: polygon(0 0,100% 0,100% 100%);
+    display:inline-block;
   }
 
-  .trophy-icon {
-    font-size: 40px;
-    margin-bottom: 12px;
-    filter: drop-shadow(0 0 18px rgba(200,151,58,0.5));
-    line-height: 1;
-    display: block;
-  }
-
-  .eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-
-  h1 {
-    font-family: 'Bebas Neue', Georgia, serif;
-    font-size: clamp(52px, 12vw, 88px);
-    line-height: 0.88;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--white);
-    text-shadow: 0 0 60px rgba(200,151,58,0.25);
-  }
-
-  h1 em {
-    display: block;
-    color: var(--gold);
-    font-style: normal;
-  }
-
-  .subtitle {
-    margin-top: 14px;
-    font-size: 13px;
-    color: var(--white-dim);
-    letter-spacing: 0.02em;
-    line-height: 1.6;
-    max-width: 420px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .gold-rule {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    margin: 28px 0;
-    opacity: 0.4;
-  }
-
-  /* ── Status bar ── */
-  .status-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--white-faint);
-    border: 1px solid rgba(200,151,58,0.2);
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-size: 12px;
-    color: var(--white-dim);
-    margin-bottom: 28px;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .status-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #888;
-    flex-shrink: 0;
-    transition: background 0.3s;
-  }
-  .status-dot.live { background: var(--green); box-shadow: 0 0 6px var(--green); }
-  .status-dot.saved { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
-
-  .status-left { display: flex; align-items: center; gap: 8px; }
-  .status-right { font-size: 11px; opacity: 0.6; }
-
-  /* ── Two-column layout ── */
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    align-items: start;
-  }
-  @media (max-width: 620px) { .two-col { grid-template-columns: 1fr; } }
-
-  /* ── Panel ── */
-  .panel {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(200,151,58,0.18);
-    border-radius: 12px;
-    padding: 22px;
-  }
-
-  .panel-title {
-    font-family: 'Bebas Neue', Georgia, serif;
-    font-size: 22px;
-    letter-spacing: 0.08em;
-    color: var(--gold);
-    margin-bottom: 4px;
-  }
-
-  .panel-sub {
-    font-size: 11px;
-    color: var(--white-mute);
-    margin-bottom: 18px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  /* ── Form ── */
-  .field-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-
-  input[type="text"] {
-    flex: 1;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 6px;
-    color: var(--white);
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    padding: 10px 12px;
-    outline: none;
-    transition: border-color 0.2s;
-    min-width: 0;
-  }
-  input[type="text"]::placeholder { color: rgba(255,255,255,0.25); }
-  input[type="text"]:focus { border-color: var(--gold); }
-
-  .btn {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 16px;
-    cursor: pointer;
-    transition: opacity 0.15s, transform 0.1s;
-    white-space: nowrap;
-  }
-  .btn:active { transform: scale(0.97); }
-  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
-
-  .btn-gold {
-    background: var(--gold);
-    color: var(--navy);
-  }
-  .btn-gold:hover:not(:disabled) { background: var(--gold-light); }
-
-  .btn-red {
-    background: rgba(192,57,43,0.7);
-    color: var(--white);
-  }
-  .btn-red:hover:not(:disabled) { background: var(--red-mid); }
-
-  .btn-outline {
-    background: transparent;
-    color: var(--white-dim);
-    border: 1px solid rgba(255,255,255,0.2);
-  }
-  .btn-outline:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
-
-  .btn-full { width: 100%; margin-top: 4px; }
-
-  /* ── Pot / Team list ── */
-  .pot-section { margin-bottom: 16px; }
-
-  .pot-label {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 600;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .pot-count {
-    background: rgba(200,151,58,0.15);
-    color: var(--gold);
-    border-radius: 20px;
-    padding: 2px 8px;
-    font-size: 10px;
-    font-weight: 600;
-  }
-
-  .team-list {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    max-height: 240px;
-    overflow-y: auto;
-    padding-right: 2px;
-  }
-
-  .team-list::-webkit-scrollbar { width: 4px; }
-  .team-list::-webkit-scrollbar-track { background: transparent; }
-  .team-list::-webkit-scrollbar-thumb { background: rgba(200,151,58,0.3); border-radius: 2px; }
-
-  .team-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 6px;
-    padding: 8px 10px;
-    font-size: 13px;
-    font-weight: 500;
-    animation: slideIn 0.2s ease-out;
-  }
-
-  .team-flag {
-    font-size: 20px;
-    line-height: 1;
-    margin-right: 8px;
-    flex-shrink: 0;
-  }
-
-  .team-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-  .remove-btn {
-    background: none;
-    border: none;
-    color: rgba(255,255,255,0.25);
-    cursor: pointer;
-    font-size: 16px;
-    padding: 0 4px;
-    line-height: 1;
-    transition: color 0.15s;
-    flex-shrink: 0;
-  }
-  .remove-btn:hover { color: var(--red-mid); }
-
-  .empty-note {
-    font-size: 12px;
-    color: rgba(255,255,255,0.2);
-    text-align: center;
-    padding: 16px 8px;
-    border: 1px dashed rgba(255,255,255,0.1);
-    border-radius: 6px;
+  h1{
+    font-family: 'Arial Black', 'Helvetica Neue', sans-serif;
+    font-weight:900;
+    font-size: clamp(38px, 11vw, 58px);
+    line-height:0.88;
+    margin:0;
+    letter-spacing:-0.02em;
+    text-transform:uppercase;
     font-style: italic;
+    color:var(--white);
+    transform: skewX(-3deg);
+  }
+  h1 .accent{ color:var(--lime); }
+
+  .subline{
+    margin-top:12px;
+    font-size:13px;
+    color:var(--mute);
+    max-width:440px;
+    line-height:1.55;
+    font-style:normal;
   }
 
-  .action-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 14px;
+  .corner-cut{
+    position:absolute;
+    bottom:0; left:0; right:0;
+    height:3px;
+    background: linear-gradient(90deg, var(--lime) 0%, var(--lime) 40%, transparent 40%, transparent 60%, var(--cyan) 60%, var(--cyan) 100%);
   }
 
-  /* ── Draw ceremony section ── */
-  .ceremony-section {
-    margin-top: 36px;
+  /* ---------- Squad panel ---------- */
+  .panel{
+    background: linear-gradient(165deg, var(--panel-2), var(--panel));
+    border:1px solid var(--line);
+    box-shadow: var(--shadow), inset 0 0 40px rgba(200,255,61,0.03);
+    padding: 0;
+    margin-bottom: 26px;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%);
+    position:relative;
   }
 
-  .ceremony-header {
-    text-align: center;
-    margin-bottom: 28px;
+  .panel-title{
+    font-size:12px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    font-weight:700;
+    color:var(--white);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: 14px 18px;
+    background: rgba(0,0,0,0.25);
+    border-bottom:1px solid var(--line);
+  }
+  .panel-title .count{
+    color:var(--pitch-1);
+    background:var(--lime);
+    font-weight:900;
+    padding: 3px 9px;
+    font-size:11px;
+    letter-spacing:0.05em;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
   }
 
-  .ceremony-header h2 {
-    font-family: 'Bebas Neue', Georgia, serif;
-    font-size: 38px;
-    letter-spacing: 0.06em;
-    color: var(--white);
+  .panel-body{
+    padding: 18px 18px 20px;
   }
 
-  .ceremony-header h2 em {
-    color: var(--gold);
-    font-style: normal;
+  .entry-row{
+    display:flex;
+    gap:8px;
+    margin-bottom:14px;
   }
 
-  .ceremony-meta {
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--white-mute);
-    margin-top: 6px;
+  input[type="text"]{
+    flex:1;
+    font-family:inherit;
+    font-size:15px;
+    font-weight:700;
+    padding:12px 14px;
+    border:1px solid var(--line);
+    background:rgba(0,0,0,0.3);
+    color:var(--white);
+    outline:none;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+  }
+  input[type="text"]::placeholder{ color:var(--mute); text-transform:none; font-weight:400; letter-spacing:0; }
+  input[type="text"]:focus{
+    border-color:var(--lime);
+    box-shadow: 0 0 0 2px rgba(200,255,61,0.18);
   }
 
-  /* ── Groups grid ── */
-  .groups-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 16px;
+  .btn{
+    font-family:inherit;
+    font-weight:900;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    font-size:13px;
+    font-style:italic;
+    border:none;
+    background:var(--lime);
+    color:var(--pitch-1);
+    padding:12px 18px;
+    cursor:pointer;
+    transition: transform 0.08s ease, filter 0.15s ease;
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  }
+  .btn:hover{ filter:brightness(1.08); }
+  .btn:active{ transform: translateY(2px); }
+  .btn:focus-visible{ outline:2px solid var(--cyan); outline-offset:3px; }
+  .btn:disabled{
+    background:#3a4a42;
+    color:#6f8579;
+    cursor:not-allowed;
+    filter:none;
   }
 
-  .group-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(200,151,58,0.22);
-    border-radius: 10px;
-    overflow: hidden;
-    animation: cardIn 0.5s ease-out both;
+  .btn.ghost{
+    background:transparent;
+    color:var(--mute);
+    border:1px solid var(--line);
+    clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  }
+  .btn.ghost:hover{ background:rgba(255,255,255,0.04); color:var(--white); filter:none; }
+
+  .btn.full{ width:100%; padding:14px 18px; font-size:15px; }
+
+  #roster-list{
+    list-style:none;
+    margin:0 0 14px;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
   }
 
-  .group-card-head {
-    background: linear-gradient(135deg, rgba(200,151,58,0.2), rgba(200,151,58,0.06));
-    border-bottom: 1px solid rgba(200,151,58,0.2);
-    padding: 10px 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  #roster-list li{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background: rgba(0,0,0,0.25);
+    border-left:3px solid var(--lime);
+    padding:10px 14px;
+    font-size:14px;
+    animation: slideIn 0.18s ease-out;
   }
 
-  .group-letter {
-    font-family: 'Bebas Neue', Georgia, serif;
-    font-size: 26px;
-    letter-spacing: 0.05em;
-    color: var(--gold);
-    line-height: 1;
+  #roster-list li .jersey{
+    font-family:'Arial Black', sans-serif;
+    font-style:italic;
+    font-size:13px;
+    color:var(--pitch-1);
+    background:var(--cyan);
+    min-width:26px;
+    height:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+    flex-shrink:0;
   }
 
-  .group-tag {
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--white-mute);
+  #roster-list li .name{
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.02em;
+    flex:1;
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
   }
 
-  .group-teams {
-    padding: 10px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+  #roster-list li .remove{
+    background:none;
+    border:none;
+    color:#d6604a;
+    font-weight:900;
+    cursor:pointer;
+    font-size:15px;
+    line-height:1;
+    padding:2px 4px;
+    font-family:inherit;
+    flex-shrink:0;
+  }
+  #roster-list li .remove:hover{ color:#ff7a5c; }
+  #roster-list li .remove:focus-visible{ outline:2px solid var(--cyan); }
+
+  .empty-note{
+    font-size:13px;
+    color:var(--mute);
+    padding:6px 2px 10px;
   }
 
-  .group-team {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--white);
-    padding: 4px 0;
+  .draw-row{
+    display:flex;
+    gap:10px;
   }
 
-  .group-team .seed {
-    font-size: 10px;
-    color: var(--gold);
-    font-weight: 600;
-    min-width: 16px;
+  /* ---------- Fixtures / Results ---------- */
+  #card-area{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
   }
 
-  /* ── Bye card ── */
-  .bye-section {
-    margin-top: 20px;
-    text-align: center;
+  .card-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:4px;
+    padding:0 2px;
+  }
+  .card-header .label{
+    font-size:12px;
+    letter-spacing:0.25em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:700;
+    white-space:nowrap;
+  }
+  .card-header .rule{
+    flex:1;
+    height:1px;
+    background:var(--line);
   }
 
-  .bye-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(192,57,43,0.15);
-    border: 1px dashed rgba(192,57,43,0.4);
-    border-radius: 20px;
-    padding: 8px 18px;
-    font-size: 13px;
-    color: rgba(248,245,239,0.7);
+  .fixture{
+    background: linear-gradient(135deg, var(--panel-2) 0%, var(--panel) 100%);
+    border:1px solid var(--line);
+    box-shadow: var(--shadow);
+    padding:0;
+    display:grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items:stretch;
+    opacity:0;
+    transform: translateY(10px);
+    animation: cardIn 0.4s ease-out forwards;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    position:relative;
+    overflow:hidden;
   }
 
-  .bye-pill strong { color: var(--white); font-weight: 600; }
-
-  /* ── Draw controls ── */
-  .draw-controls {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    margin-bottom: 28px;
-    flex-wrap: wrap;
+  .fixture::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background: linear-gradient(100deg, transparent 40%, rgba(200,255,61,0.06) 50%, transparent 60%);
+    pointer-events:none;
   }
 
-  .btn-ceremony {
-    font-family: 'Bebas Neue', Georgia, serif;
-    font-size: 22px;
-    letter-spacing: 0.12em;
-    background: linear-gradient(135deg, var(--gold), var(--gold-light));
-    color: var(--navy);
-    border: none;
-    border-radius: 8px;
-    padding: 14px 36px;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: transform 0.12s, box-shadow 0.15s;
-    box-shadow: 0 4px 20px rgba(200,151,58,0.25);
+  .fixture .slot{
+    text-align:center;
+    min-width:0;
+    padding: 20px 12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
   }
-  .btn-ceremony:hover:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 30px rgba(200,151,58,0.4);
+  .fixture .slot .tag{
+    font-size:10px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color: var(--lime);
+    font-weight:700;
   }
-  .btn-ceremony:active:not(:disabled) { transform: scale(0.98); }
-  .btn-ceremony:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; transform: none; }
+  .fixture .slot.side-b .tag{ color:var(--cyan); }
 
-  .btn-redraw {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 0.06em;
-    background: transparent;
-    color: var(--white-dim);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 8px;
-    padding: 14px 24px;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: border-color 0.15s, color 0.15s;
-  }
-  .btn-redraw:hover:not(:disabled) { border-color: var(--red-mid); color: var(--red-mid); }
-  .btn-redraw:disabled { opacity: 0.3; cursor: not-allowed; }
-
-  /* ── Empty draw ── */
-  .empty-draw {
-    text-align: center;
-    border: 1px dashed rgba(200,151,58,0.2);
-    border-radius: 12px;
-    padding: 52px 24px;
-    color: var(--white-mute);
+  .fixture .slot .fname{
+    font-family:'Arial Black', 'Helvetica Neue', sans-serif;
+    font-weight:900;
+    font-style:italic;
+    font-size: clamp(16px, 4.6vw, 21px);
+    text-transform:uppercase;
+    line-height:1.1;
+    word-break:break-word;
+    color:var(--white);
   }
 
-  .empty-draw .big-icon { font-size: 42px; margin-bottom: 14px; opacity: 0.5; }
-
-  .empty-draw p { font-size: 13px; line-height: 1.7; }
-
-  /* ── Toast ── */
-  .toast {
-    position: fixed;
-    bottom: 28px;
-    left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--navy-3);
-    border: 1px solid rgba(200,151,58,0.4);
-    border-radius: 8px;
-    padding: 12px 20px;
-    font-size: 13px;
-    color: var(--white);
-    font-weight: 500;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    z-index: 100;
-    white-space: nowrap;
-    pointer-events: none;
+  .fixture .vs{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,0.35);
+    padding:0 14px;
+    position:relative;
   }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  /* ── Loading ── */
-  .loading-state {
-    text-align: center;
-    padding: 40px;
-    color: var(--white-mute);
-    font-size: 13px;
+  .fixture .vs .vs-text{
+    font-family:'Arial Black', sans-serif;
+    font-style:italic;
+    font-weight:900;
+    color:var(--gold);
+    font-size:16px;
+    letter-spacing:0.02em;
+  }
+  .fixture .vs .vs-sub{
+    font-size:9px;
+    color:var(--mute);
+    letter-spacing:0.15em;
+    margin-top:2px;
   }
 
-  .spinner {
-    width: 24px; height: 24px;
-    border: 2px solid rgba(200,151,58,0.2);
-    border-top-color: var(--gold);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 12px;
+  .fixture-number{
+    font-size:10px;
+    letter-spacing:0.2em;
+    color:var(--mute);
+    text-transform:uppercase;
+    padding: 4px 2px 0;
+    font-weight:700;
   }
 
-  /* ── Pot selector ── */
-  .pot-tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 12px;
+  .bye-card{
+    background: rgba(0,0,0,0.22);
+    border:1px dashed var(--line);
+    padding:14px 16px;
+    text-align:center;
+    font-size:12px;
+    color:var(--mute);
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+  }
+  .bye-card .fname{
+    display:block;
+    font-family:'Arial Black', sans-serif;
+    font-style:italic;
+    font-weight:900;
+    font-size:18px;
+    color:var(--gold);
+    text-transform:uppercase;
+    margin-top:5px;
+    letter-spacing:0.02em;
   }
 
-  .pot-tab {
-    flex: 1;
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: var(--white-mute);
-    border-radius: 6px;
-    padding: 7px 4px;
-    cursor: pointer;
-    transition: all 0.15s;
-    text-align: center;
-  }
-  .pot-tab.active {
-    background: rgba(200,151,58,0.15);
-    border-color: rgba(200,151,58,0.4);
-    color: var(--gold);
+  #placeholder{
+    text-align:center;
+    padding: 40px 18px;
+    border:1px dashed var(--line);
+    color:var(--mute);
+    font-size:13px;
+    line-height:1.6;
+    background: rgba(0,0,0,0.12);
   }
 
-  /* ── Flag selector ── */
-  .flag-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 4px;
-    margin-bottom: 12px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 6px;
-    padding: 8px;
+  @keyframes cardIn{
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @keyframes slideIn{
+    from{ opacity:0; transform:translateX(-6px); }
+    to{ opacity:1; transform:translateX(0); }
   }
 
-  .flag-btn {
-    background: none;
-    border: 2px solid transparent;
-    border-radius: 4px;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 4px;
-    line-height: 1;
-    text-align: center;
-    transition: border-color 0.15s, background 0.15s;
-  }
-  .flag-btn:hover { background: rgba(255,255,255,0.08); }
-  .flag-btn.selected { border-color: var(--gold); background: rgba(200,151,58,0.15); }
-
-  .selected-flag-preview {
-    font-size: 22px;
-    line-height: 1;
-    width: 40px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 6px;
-    flex-shrink: 0;
+  @media (prefers-reduced-motion: reduce){
+    .fixture{ animation:none; opacity:1; transform:none; }
+    #roster-list li{ animation:none; }
   }
 
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(-8px); }
-    to { opacity: 1; transform: translateX(0); }
+  footer{
+    margin-top:32px;
+    font-size:10px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:#4d6b5b;
+    text-align:center;
   }
 
-  @keyframes cardIn {
-    from { opacity: 0; transform: translateY(14px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .group-card, .team-item { animation: none; }
-    .btn-ceremony, .toast { transition: none; }
-  }
-
-  /* ── Group count control ── */
-  .group-size-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 6px;
-    padding: 8px 12px;
-    margin-bottom: 12px;
-  }
-
-  .group-size-label {
-    font-size: 12px;
-    color: var(--white-dim);
-  }
-
-  .group-size-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .count-btn {
-    background: rgba(200,151,58,0.15);
-    border: 1px solid rgba(200,151,58,0.3);
-    color: var(--gold);
-    border-radius: 4px;
-    width: 26px; height: 26px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    line-height: 1;
-    transition: background 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .count-btn:hover { background: rgba(200,151,58,0.3); }
-
-  .group-count-display {
-    font-family: 'Bebas Neue', serif;
-    font-size: 22px;
-    color: var(--gold);
-    min-width: 28px;
-    text-align: center;
+  @media (max-width:420px){
+    .fixture{ grid-template-columns: 1fr; }
+    .fixture .vs{ padding:10px 0; flex-direction:row; gap:8px; }
+    .fixture .vs .vs-sub{ margin-top:0; }
   }
 </style>
 </head>
 <body>
-<div class="shell">
 
-  <header class="site-header">
-    <span class="trophy-icon">🏆</span>
-    <div class="eyebrow">Official Ceremony</div>
-    <h1>Group Stage<em>Draw</em></h1>
-    <p class="subtitle">Add teams to the pot, configure groups, then conduct the official draw — saved for every viewer.</p>
+<div class="wrap">
+  <header>
+    <div class="league-tag">Kickoff Draw</div>
+    <h1>MATCH<span class="accent">DAY</span></h1>
+    <p class="subline">Add the full squad list, then hit the whistle. Everyone gets shuffled and paired off head-to-head — random draw, no repeats, no favourites.</p>
+    <div class="corner-cut"></div>
   </header>
 
-  <div class="status-bar">
-    <div class="status-left">
-      <div class="status-dot" id="status-dot"></div>
-      <span id="status-text">Connecting…</span>
+  <div class="panel">
+    <div class="panel-title">
+      <span>Squad List</span>
+      <span class="count" id="roster-count">0 PLAYERS</span>
     </div>
-    <div class="status-right" id="last-updated"></div>
-  </div>
+    <div class="panel-body">
+      <form id="entry-form" class="entry-row">
+        <input type="text" id="name-input" placeholder="Enter player name…" autocomplete="off" maxlength="40">
+        <button type="submit" class="btn">Add</button>
+      </form>
 
-  <div class="two-col">
-    <!-- LEFT: Add teams -->
-    <div class="panel">
-      <div class="panel-title">Add Teams</div>
-      <div class="panel-sub">Pick a flag · enter a name</div>
+      <ul id="roster-list"></ul>
+      <p class="empty-note" id="empty-note">Squad's empty — add at least two players to draw fixtures.</p>
 
-      <div class="flag-grid" id="flag-grid"></div>
-
-      <div class="field-row">
-        <div class="selected-flag-preview" id="flag-preview">🏳️</div>
-        <input type="text" id="name-input" placeholder="Team name…" maxlength="30" autocomplete="off">
-        <button class="btn btn-gold" id="add-btn">Add</button>
-      </div>
-
-      <div class="pot-section">
-        <div class="pot-label">
-          <span>Teams in pot</span>
-          <span class="pot-count" id="pot-count">0</span>
-        </div>
-        <ul class="team-list" id="team-list"></ul>
-        <div class="empty-note" id="empty-note">No teams yet — add at least 2.</div>
-      </div>
-
-      <div class="group-size-row">
-        <span class="group-size-label">Number of groups</span>
-        <div class="group-size-controls">
-          <button class="count-btn" id="groups-minus">−</button>
-          <span class="group-count-display" id="groups-display">4</span>
-          <button class="count-btn" id="groups-plus">+</button>
-        </div>
-      </div>
-
-      <div class="action-row">
-        <button class="btn btn-red" id="clear-btn" style="flex:1">Clear all</button>
-      </div>
-    </div>
-
-    <!-- RIGHT: Draw info -->
-    <div class="panel">
-      <div class="panel-title">Draw Info</div>
-      <div class="panel-sub">Current configuration</div>
-
-      <div style="display:flex;flex-direction:column;gap:12px">
-        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:14px 16px">
-          <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Teams in pot</div>
-          <div style="font-family:'Bebas Neue',serif;font-size:36px;color:var(--white)" id="info-teams">0</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:14px 16px">
-          <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Groups</div>
-          <div style="font-family:'Bebas Neue',serif;font-size:36px;color:var(--white)" id="info-groups">4</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:14px 16px">
-          <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Teams per group (est.)</div>
-          <div style="font-family:'Bebas Neue',serif;font-size:36px;color:var(--white)" id="info-per-group">—</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:14px 16px">
-          <div style="font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Odd teams (sit out)</div>
-          <div style="font-family:'Bebas Neue',serif;font-size:36px;color:var(--white)" id="info-odd">0</div>
-        </div>
-      </div>
-
-      <div style="margin-top:14px;background:rgba(200,151,58,0.07);border:1px solid rgba(200,151,58,0.2);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--white-dim);line-height:1.7">
-        <strong style="color:var(--gold)">How it works:</strong> Teams are shuffled with a Fisher–Yates algorithm and distributed evenly across groups. The draw result is saved and shared — everyone sees the same card.
+      <div class="draw-row">
+        <button class="btn full" id="draw-btn" disabled>Kick Off Draw</button>
+        <button class="btn ghost" id="clear-btn" title="Clear squad">Clear</button>
       </div>
     </div>
   </div>
 
-  <!-- Draw section -->
-  <section class="ceremony-section">
-    <div class="ceremony-header">
-      <h2>The <em>Draw</em></h2>
-      <div class="ceremony-meta" id="draw-meta">No draw conducted yet</div>
-    </div>
+  <div id="card-area">
+    <div id="placeholder">No fixtures yet.<br>Build the squad list above, then kick off the draw.</div>
+  </div>
 
-    <div class="draw-controls">
-      <button class="btn-ceremony" id="draw-btn" disabled>Conduct the Draw</button>
-      <button class="btn-redraw" id="redraw-btn" disabled>Redraw</button>
-    </div>
-
-    <div id="draw-area">
-      <div class="empty-draw">
-        <div class="big-icon">🎰</div>
-        <p>Add at least 2 teams above, then conduct the draw.<br>The result will be saved and visible to all viewers.</p>
-      </div>
-    </div>
-  </section>
-
+  <footer>Fair Draw — Fisher–Yates Shuffle</footer>
 </div>
-
-<div class="toast" id="toast"></div>
 
 <script>
 (function(){
-'use strict';
+  'use strict';
 
-const STORAGE_KEY = 'fifa-draw-v3';
+  const STORAGE_KEY = 'matchdayDraw.roster';
+  let roster = [];
 
-const FLAGS = ['🇦🇷','🇧🇷','🇫🇷','🇩🇪','🇪🇸','🇵🇹','🇮🇹','🇬🇧','🇳🇱','🇧🇪','🏴󠁧󠁢󠁳󠁣󠁴󠁿','🇺🇸','🇯🇵','🇰🇷','🇦🇺','🇿🇦','🇲🇽','🇨🇴','🇨🇱','🇺🇾','🇸🇳','🇬🇭','🇨🇲','🇳🇬','🇲🇦','🇹🇳','🇪🇬','🇮🇳','🇮🇷','🇶🇦','🇸🇦','🇩🇰','🇸🇪','🇨🇭','🇵🇱','🇨🇷','🏳️'];
+  const form = document.getElementById('entry-form');
+  const input = document.getElementById('name-input');
+  const list = document.getElementById('roster-list');
+  const countLabel = document.getElementById('roster-count');
+  const emptyNote = document.getElementById('empty-note');
+  const drawBtn = document.getElementById('draw-btn');
+  const clearBtn = document.getElementById('clear-btn');
+  const cardArea = document.getElementById('card-area');
 
-let state = {
-  teams: [],
-  numGroups: 4,
-  draw: null,
-  drawDate: null
-};
-
-let selectedFlag = '🏳️';
-
-// DOM refs
-const flagGrid = document.getElementById('flag-grid');
-const flagPreview = document.getElementById('flag-preview');
-const nameInput = document.getElementById('name-input');
-const addBtn = document.getElementById('add-btn');
-const teamList = document.getElementById('team-list');
-const emptyNote = document.getElementById('empty-note');
-const potCount = document.getElementById('pot-count');
-const clearBtn = document.getElementById('clear-btn');
-const drawBtn = document.getElementById('draw-btn');
-const redrawBtn = document.getElementById('redraw-btn');
-const drawArea = document.getElementById('draw-area');
-const drawMeta = document.getElementById('draw-meta');
-const statusDot = document.getElementById('status-dot');
-const statusText = document.getElementById('status-text');
-const lastUpdated = document.getElementById('last-updated');
-const groupsMinus = document.getElementById('groups-minus');
-const groupsPlus = document.getElementById('groups-plus');
-const groupsDisplay = document.getElementById('groups-display');
-const infoTeams = document.getElementById('info-teams');
-const infoGroups = document.getElementById('info-groups');
-const infoPerGroup = document.getElementById('info-per-group');
-const infoOdd = document.getElementById('info-odd');
-const toastEl = document.getElementById('toast');
-
-// ── Storage ──
-async function loadState() {
-  try {
-    const result = await window.storage.get(STORAGE_KEY, true);
-    if (result && result.value) {
-      const parsed = JSON.parse(result.value);
-      if (parsed && typeof parsed === 'object') {
-        state = Object.assign(state, parsed);
+  function loadRoster(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        const parsed = JSON.parse(raw);
+        if(Array.isArray(parsed)) roster = parsed.filter(n => typeof n === 'string');
       }
-    }
-    setStatus('live', 'Live — changes saved for all viewers');
-  } catch(e) {
-    setStatus('error', 'Storage unavailable — changes not saved');
-  }
-}
-
-async function saveState() {
-  try {
-    await window.storage.set(STORAGE_KEY, JSON.stringify(state), true);
-    setStatus('saved', 'Saved — all viewers see the latest');
-    updateLastSaved();
-  } catch(e) {
-    setStatus('error', 'Could not save — try again');
-  }
-}
-
-function setStatus(type, msg) {
-  statusText.textContent = msg;
-  statusDot.className = 'status-dot';
-  if (type === 'live') statusDot.classList.add('live');
-  if (type === 'saved') statusDot.classList.add('saved');
-}
-
-function updateLastSaved() {
-  const now = new Date();
-  lastUpdated.textContent = 'Last saved ' + now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-}
-
-// ── Flag grid ──
-function buildFlagGrid() {
-  FLAGS.forEach(f => {
-    const btn = document.createElement('button');
-    btn.className = 'flag-btn';
-    btn.textContent = f;
-    btn.type = 'button';
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.flag-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      selectedFlag = f;
-      flagPreview.textContent = f;
-    });
-    flagGrid.appendChild(btn);
-  });
-  flagGrid.querySelector('.flag-btn:last-child').classList.add('selected');
-}
-
-// ── Add team ──
-function addTeam(name, flag) {
-  const n = name.trim();
-  if (!n) { showToast('Enter a team name first'); return; }
-  state.teams.push({ name: n, flag: flag || selectedFlag });
-  saveState();
-  renderTeams();
-  updateInfo();
-  nameInput.value = '';
-  nameInput.focus();
-}
-
-addBtn.addEventListener('click', () => addTeam(nameInput.value, selectedFlag));
-nameInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter') { e.preventDefault(); addTeam(nameInput.value, selectedFlag); }
-});
-
-// ── Remove team ──
-function removeTeam(idx) {
-  state.teams.splice(idx, 1);
-  saveState();
-  renderTeams();
-  updateInfo();
-}
-
-// ── Render teams ──
-function renderTeams() {
-  teamList.innerHTML = '';
-  state.teams.forEach((t, i) => {
-    const li = document.createElement('li');
-    li.className = 'team-item';
-    li.innerHTML =
-      '<span class="team-flag">' + t.flag + '</span>' +
-      '<span class="team-name">' + escHtml(t.name) + '</span>' +
-      '<button class="remove-btn" aria-label="Remove ' + escHtml(t.name) + '">✕</button>';
-    li.querySelector('.remove-btn').addEventListener('click', () => removeTeam(i));
-    teamList.appendChild(li);
-  });
-  potCount.textContent = state.teams.length;
-  emptyNote.style.display = state.teams.length === 0 ? 'block' : 'none';
-  drawBtn.disabled = state.teams.length < 2;
-  updateInfo();
-}
-
-// ── Group count ──
-groupsMinus.addEventListener('click', () => {
-  if (state.numGroups > 1) {
-    state.numGroups--;
-    saveState();
-    renderGroupControl();
-    updateInfo();
-  }
-});
-groupsPlus.addEventListener('click', () => {
-  if (state.numGroups < 26) {
-    state.numGroups++;
-    saveState();
-    renderGroupControl();
-    updateInfo();
-  }
-});
-
-function renderGroupControl() {
-  groupsDisplay.textContent = state.numGroups;
-}
-
-// ── Info panel ──
-function updateInfo() {
-  const t = state.teams.length;
-  const g = state.numGroups;
-  infoTeams.textContent = t;
-  infoGroups.textContent = g;
-  if (t < 2) {
-    infoPerGroup.textContent = '—';
-    infoOdd.textContent = '0';
-  } else {
-    const perGroup = Math.floor(t / g);
-    const remainder = t % g;
-    infoPerGroup.textContent = perGroup === 0 ? '< 1' : (remainder > 0 ? perGroup + '–' + (perGroup + 1) : perGroup);
-    infoOdd.textContent = remainder;
-  }
-}
-
-// ── Clear ──
-clearBtn.addEventListener('click', () => {
-  if (!confirm('Clear all teams and the current draw?')) return;
-  state.teams = [];
-  state.draw = null;
-  state.drawDate = null;
-  saveState();
-  renderTeams();
-  updateInfo();
-  renderDraw();
-  showToast('Roster cleared');
-});
-
-// ── Fisher–Yates shuffle ──
-function shuffle(arr) {
-  const a = arr.slice();
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-// ── Conduct draw ──
-function conductDraw() {
-  if (state.teams.length < 2) return;
-  const shuffled = shuffle(state.teams);
-  const g = Math.min(state.numGroups, state.teams.length);
-  const groups = Array.from({length: g}, () => []);
-  const byes = [];
-
-  shuffled.forEach((team, i) => {
-    const groupIdx = i % g;
-    if (groupIdx < g) groups[groupIdx].push(team);
-    else byes.push(team);
-  });
-
-  // Handle remainder — if numGroups > teams, some groups will be empty; filter
-  const filledGroups = groups.filter(gr => gr.length > 0);
-
-  state.draw = { groups: filledGroups, byes };
-  state.drawDate = new Date().toISOString();
-  saveState();
-  renderDraw();
-  showToast('Draw complete! Result saved for all viewers 🎉');
-}
-
-drawBtn.addEventListener('click', conductDraw);
-redrawBtn.addEventListener('click', () => {
-  if (confirm('Conduct a new draw? This will replace the current result for everyone.')) conductDraw();
-});
-
-// ── Render draw ──
-function renderDraw() {
-  if (!state.draw) {
-    drawMeta.textContent = 'No draw conducted yet';
-    redrawBtn.disabled = true;
-    drawArea.innerHTML = '<div class="empty-draw"><div class="big-icon">🎰</div><p>Add at least 2 teams above, then conduct the draw.<br>The result will be saved and visible to all viewers.</p></div>';
-    return;
+    }catch(e){ /* ignore corrupt storage */ }
   }
 
-  const d = state.draw;
-  redrawBtn.disabled = false;
+  function saveRoster(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(roster)); }
+    catch(e){ /* storage unavailable, proceed without persistence */ }
+  }
 
-  const dateStr = state.drawDate ? new Date(state.drawDate).toLocaleString([], {
-    month:'long', day:'numeric', year:'numeric', hour:'2-digit', minute:'2-digit'
-  }) : '';
-  drawMeta.textContent = 'Official result · ' + dateStr;
+  function renderRoster(){
+    list.innerHTML = '';
+    roster.forEach((name, i) => {
+      const li = document.createElement('li');
 
-  const grid = document.createElement('div');
-  grid.className = 'groups-grid';
+      const jersey = document.createElement('span');
+      jersey.className = 'jersey';
+      jersey.textContent = String(i + 1);
 
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  d.groups.forEach((group, gi) => {
-    const card = document.createElement('div');
-    card.className = 'group-card';
-    card.style.animationDelay = (gi * 0.07) + 's';
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'name';
+      nameSpan.textContent = name;
 
-    const head = document.createElement('div');
-    head.className = 'group-card-head';
-    head.innerHTML =
-      '<span class="group-letter">Group ' + (letters[gi] || (gi+1)) + '</span>' +
-      '<span class="group-tag">' + group.length + ' team' + (group.length !== 1 ? 's' : '') + '</span>';
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'remove';
+      removeBtn.type = 'button';
+      removeBtn.setAttribute('aria-label', 'Remove ' + name);
+      removeBtn.textContent = '✕';
+      removeBtn.addEventListener('click', () => {
+        roster.splice(i, 1);
+        saveRoster();
+        renderRoster();
+      });
 
-    const teamsDiv = document.createElement('div');
-    teamsDiv.className = 'group-teams';
-
-    group.forEach((team, ti) => {
-      const t = document.createElement('div');
-      t.className = 'group-team';
-      t.innerHTML =
-        '<span class="seed">' + (ti + 1) + '</span>' +
-        '<span style="font-size:18px;line-height:1">' + team.flag + '</span>' +
-        '<span>' + escHtml(team.name) + '</span>';
-      teamsDiv.appendChild(t);
+      li.appendChild(jersey);
+      li.appendChild(nameSpan);
+      li.appendChild(removeBtn);
+      list.appendChild(li);
     });
 
-    card.appendChild(head);
-    card.appendChild(teamsDiv);
-    grid.appendChild(card);
+    countLabel.textContent = roster.length + (roster.length === 1 ? ' PLAYER' : ' PLAYERS');
+    emptyNote.style.display = roster.length === 0 ? 'block' : 'none';
+    drawBtn.disabled = roster.length < 2;
+  }
+
+  function addName(raw){
+    const name = raw.trim();
+    if(!name) return;
+    roster.push(name);
+    saveRoster();
+    renderRoster();
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    addName(input.value);
+    input.value = '';
+    input.focus();
   });
 
-  drawArea.innerHTML = '';
-  drawArea.appendChild(grid);
+  clearBtn.addEventListener('click', () => {
+    if(roster.length === 0) return;
+    if(confirm('Clear the whole squad list? This can\'t be undone.')){
+      roster = [];
+      saveRoster();
+      renderRoster();
+      cardArea.innerHTML = '<div id="placeholder">No fixtures yet.<br>Build the squad list above, then kick off the draw.</div>';
+    }
+  });
 
-  if (d.byes && d.byes.length > 0) {
-    const byeSec = document.createElement('div');
-    byeSec.className = 'bye-section';
-    const pills = d.byes.map(t =>
-      '<div class="bye-pill"><span style="font-size:18px">' + t.flag + '</span> <strong>' + escHtml(t.name) + '</strong> — sits out this round</div>'
-    ).join('');
-    byeSec.innerHTML = '<div style="display:flex;flex-direction:column;gap:8px;align-items:center;margin-top:16px">' + pills + '</div>';
-    drawArea.appendChild(byeSec);
+  // Fisher–Yates shuffle — unbiased, every permutation equally likely
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
   }
-}
 
-// ── Toast ──
-let toastTimer;
-function showToast(msg) {
-  toastEl.textContent = msg;
-  toastEl.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3000);
-}
+  function pullCard(){
+    const shuffled = shuffle(roster);
+    const fixtures = [];
+    let bye = null;
 
-function escHtml(str) {
-  const d = document.createElement('div');
-  d.textContent = str;
-  return d.innerHTML;
-}
-
-// ── Poll for shared updates ──
-let pollInterval = null;
-
-async function pollUpdates() {
-  try {
-    const result = await window.storage.get(STORAGE_KEY, true);
-    if (result && result.value) {
-      const parsed = JSON.parse(result.value);
-      const localDate = state.drawDate;
-      const remoteDate = parsed.drawDate;
-      if (remoteDate && remoteDate !== localDate) {
-        state = Object.assign(state, parsed);
-        renderTeams();
-        renderGroupControl();
-        updateInfo();
-        renderDraw();
-        showToast('Draw updated by another user');
+    for(let i = 0; i < shuffled.length; i += 2){
+      if(i + 1 < shuffled.length){
+        fixtures.push([shuffled[i], shuffled[i+1]]);
+      } else {
+        bye = shuffled[i];
       }
     }
-  } catch(e) {}
-}
 
-// ── Boot ──
-async function init() {
-  buildFlagGrid();
-  await loadState();
-  renderTeams();
-  renderGroupControl();
-  updateInfo();
-  renderDraw();
-  setStatus('live', 'Live — changes saved for all viewers');
-  pollInterval = setInterval(pollUpdates, 8000);
-}
+    cardArea.innerHTML = '';
 
-init();
+    const header = document.createElement('div');
+    header.className = 'card-header';
+    header.innerHTML = '<span class="label">' + fixtures.length + (fixtures.length === 1 ? ' Fixture' : ' Fixtures') + '</span><span class="rule"></span>';
+    cardArea.appendChild(header);
 
+    fixtures.forEach((pair, idx) => {
+      const fixture = document.createElement('div');
+      fixture.className = 'fixture';
+      fixture.style.animationDelay = (idx * 0.08) + 's';
+      fixture.innerHTML =
+        '<div class="slot side-a">' +
+          '<span class="tag">Home</span>' +
+          '<span class="fname">' + escapeHtml(pair[0]) + '</span>' +
+        '</div>' +
+        '<div class="vs">' +
+          '<span class="vs-text">VS</span>' +
+          '<span class="vs-sub">FT</span>' +
+        '</div>' +
+        '<div class="slot side-b">' +
+          '<span class="tag">Away</span>' +
+          '<span class="fname">' + escapeHtml(pair[1]) + '</span>' +
+        '</div>';
+      cardArea.appendChild(fixture);
+
+      const num = document.createElement('div');
+      num.className = 'fixture-number';
+      num.textContent = 'Fixture ' + (idx + 1);
+      cardArea.appendChild(num);
+    });
+
+    if(bye){
+      const byeCard = document.createElement('div');
+      byeCard.className = 'bye-card';
+      byeCard.innerHTML = 'On the bench this round<span class="fname">' + escapeHtml(bye) + '</span>';
+      cardArea.appendChild(byeCard);
+    }
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  drawBtn.addEventListener('click', pullCard);
+
+  loadRoster();
+  renderRoster();
 })();
 </script>
+
 </body>
 </html>
